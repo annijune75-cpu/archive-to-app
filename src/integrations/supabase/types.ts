@@ -302,6 +302,50 @@ export type Database = {
           },
         ]
       }
+      class_content: {
+        Row: {
+          body: string | null
+          class_id: string
+          created_at: string
+          created_by: string
+          id: string
+          kind: string
+          link_url: string | null
+          questions: Json | null
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          class_id: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          kind: string
+          link_url?: string | null
+          questions?: Json | null
+          title: string
+        }
+        Update: {
+          body?: string | null
+          class_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          kind?: string
+          link_url?: string | null
+          questions?: Json | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_content_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_invites: {
         Row: {
           class_id: string
@@ -388,6 +432,44 @@ export type Database = {
             columns: ["student_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_messages: {
+        Row: {
+          body: string
+          class_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          recipient_id: string | null
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          class_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string | null
+          sender_id?: string
+        }
+        Update: {
+          body?: string
+          class_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_messages_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
             referencedColumns: ["id"]
           },
         ]
