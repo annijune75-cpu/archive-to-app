@@ -1,0 +1,14 @@
+{
+  "source": "bridge-library-main.zip (code archive; TanStack Start app previously on an external backend)",
+  "capabilities": [
+    {"capability": "Application code, pages, assets, styles", "source": "src/", "outcome": "copied unchanged except backend connection", "status": "verified", "next_action": "none"},
+    {"capability": "Schema (profiles, subjects, lessons, questions, attempts, schools, classes, papers, scholarships, roles, learning, bookmarks, ratings, certificates, study chat)", "source": "supabase/migrations + supabase/manual + app usage", "outcome": "migrate: recreated in Lovable Cloud; base tables reconstructed from code since the old project kept them outside the repo", "status": "migrated", "next_action": "compare against old project's real columns when exports arrive"},
+    {"capability": "Records (subjects, lessons, questions, answers, papers, scholarships, etc.)", "source": "old external database", "outcome": "migrate", "status": "pending", "next_action": "user supplies CSV/JSON exports per table"},
+    {"capability": "Auth identities", "source": "old external auth users", "outcome": "migrate: email sign-up/sign-in on Lovable Cloud, email confirmation on", "status": "pending", "next_action": "user exports users (id, email) and profiles/user_roles; import with ID mapping and first-login password setup"},
+    {"capability": "Authorization (roles, RLS, RPCs)", "source": "migrations", "outcome": "recreated with has_role/user_roles", "status": "migrated", "next_action": "verify with signed-in student/teacher/admin accounts"},
+    {"capability": "File storage (exam-papers, student-photos)", "source": "old storage buckets", "outcome": "private buckets + policies created", "status": "migrated", "next_action": "file bytes pending export"},
+    {"capability": "AI study guide", "source": "Lovable AI Gateway", "outcome": "preserved", "status": "unverified", "next_action": "test signed in"},
+    {"capability": "MCP server + OAuth consent", "source": "src/routes/mcp.ts", "outcome": "issuer switched to Cloud, OAuth server enabled", "status": "unverified", "next_action": "connect a client after publish"},
+    {"capability": "Cutover", "source": "-", "outcome": "old backend no longer used by the app", "status": "pending", "next_action": "existing users re-verify email and set a new password after import"}
+  ]
+}

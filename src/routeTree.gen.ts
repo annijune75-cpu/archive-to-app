@@ -10,33 +10,455 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BookmarksRouteImport } from './routes/bookmarks'
+import { Route as CertificatesRouteImport } from './routes/certificates'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DownloadsRouteImport } from './routes/downloads'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ManagementRouteImport } from './routes/management'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MyCoursesRouteImport } from './routes/my-courses'
+import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SiteContentRouteImport } from './routes/site-content'
+import { Route as StudyGuideRouteImport } from './routes/study-guide'
+import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as WassceRouteImport } from './routes/wassce'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as ApiStudyChatRouteImport } from './routes/api/study-chat'
+import { Route as CoursesSubjectIdRouteImport } from './routes/courses_.$subjectId'
+import { Route as PracticePastQuestionsRouteImport } from './routes/practice_.past-questions'
+import { Route as PracticeStudyNotesRouteImport } from './routes/practice_.study-notes'
+import { Route as StudyGuideThreadIdRouteImport } from './routes/study-guide_.$threadId'
+import { Route as StudyGuideStepsRouteImport } from './routes/study-guide_.steps'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as StudyGuideLessonsSubjectIdLessonIdRouteImport } from './routes/study-guide_.lessons.$subjectId.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookmarksRoute = BookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificatesRoute = CertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesRoute = CoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadsRoute = DownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagementRoute = ManagementRouteImport.update({
+  id: '/management',
+  path: '/management',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyCoursesRoute = MyCoursesRouteImport.update({
+  id: '/my-courses',
+  path: '/my-courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteContentRoute = SiteContentRouteImport.update({
+  id: '/site-content',
+  path: '/site-content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyGuideRoute = StudyGuideRouteImport.update({
+  id: '/study-guide',
+  path: '/study-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeacherRoute = TeacherRouteImport.update({
+  id: '/teacher',
+  path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WassceRoute = WassceRouteImport.update({
+  id: '/wassce',
+  path: '/wassce',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiStudyChatRoute = ApiStudyChatRouteImport.update({
+  id: '/api/study-chat',
+  path: '/api/study-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesSubjectIdRoute = CoursesSubjectIdRouteImport.update({
+  id: '/courses_/$subjectId',
+  path: '/courses/$subjectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticePastQuestionsRoute = PracticePastQuestionsRouteImport.update({
+  id: '/practice_/past-questions',
+  path: '/practice/past-questions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeStudyNotesRoute = PracticeStudyNotesRouteImport.update({
+  id: '/practice_/study-notes',
+  path: '/practice/study-notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyGuideThreadIdRoute = StudyGuideThreadIdRouteImport.update({
+  id: '/study-guide_/$threadId',
+  path: '/study-guide/$threadId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyGuideStepsRoute = StudyGuideStepsRouteImport.update({
+  id: '/study-guide_/steps',
+  path: '/study-guide/steps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyGuideLessonsSubjectIdLessonIdRoute =
+  StudyGuideLessonsSubjectIdLessonIdRouteImport.update({
+    id: '/study-guide_/lessons/$subjectId/$lessonId',
+    path: '/study-guide/lessons/$subjectId/$lessonId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/bookmarks': typeof BookmarksRoute
+  '/certificates': typeof CertificatesRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/features': typeof FeaturesRoute
+  '/management': typeof ManagementRoute
+  '/mcp': typeof McpRoute
+  '/my-courses': typeof MyCoursesRoute
+  '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/site-content': typeof SiteContentRoute
+  '/study-guide': typeof StudyGuideRoute
+  '/teacher': typeof TeacherRoute
+  '/terms': typeof TermsRoute
+  '/wassce': typeof WassceRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/study-chat': typeof ApiStudyChatRoute
+  '/courses/$subjectId': typeof CoursesSubjectIdRoute
+  '/practice/past-questions': typeof PracticePastQuestionsRoute
+  '/practice/study-notes': typeof PracticeStudyNotesRoute
+  '/study-guide/$threadId': typeof StudyGuideThreadIdRoute
+  '/study-guide/steps': typeof StudyGuideStepsRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/study-guide/lessons/$subjectId/$lessonId': typeof StudyGuideLessonsSubjectIdLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/bookmarks': typeof BookmarksRoute
+  '/certificates': typeof CertificatesRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/features': typeof FeaturesRoute
+  '/management': typeof ManagementRoute
+  '/mcp': typeof McpRoute
+  '/my-courses': typeof MyCoursesRoute
+  '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/site-content': typeof SiteContentRoute
+  '/study-guide': typeof StudyGuideRoute
+  '/teacher': typeof TeacherRoute
+  '/terms': typeof TermsRoute
+  '/wassce': typeof WassceRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/study-chat': typeof ApiStudyChatRoute
+  '/courses/$subjectId': typeof CoursesSubjectIdRoute
+  '/practice/past-questions': typeof PracticePastQuestionsRoute
+  '/practice/study-notes': typeof PracticeStudyNotesRoute
+  '/study-guide/$threadId': typeof StudyGuideThreadIdRoute
+  '/study-guide/steps': typeof StudyGuideStepsRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/study-guide/lessons/$subjectId/$lessonId': typeof StudyGuideLessonsSubjectIdLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/bookmarks': typeof BookmarksRoute
+  '/certificates': typeof CertificatesRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/features': typeof FeaturesRoute
+  '/management': typeof ManagementRoute
+  '/mcp': typeof McpRoute
+  '/my-courses': typeof MyCoursesRoute
+  '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/settings': typeof SettingsRoute
+  '/site-content': typeof SiteContentRoute
+  '/study-guide': typeof StudyGuideRoute
+  '/teacher': typeof TeacherRoute
+  '/terms': typeof TermsRoute
+  '/wassce': typeof WassceRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/study-chat': typeof ApiStudyChatRoute
+  '/courses_/$subjectId': typeof CoursesSubjectIdRoute
+  '/practice_/past-questions': typeof PracticePastQuestionsRoute
+  '/practice_/study-notes': typeof PracticeStudyNotesRoute
+  '/study-guide_/$threadId': typeof StudyGuideThreadIdRoute
+  '/study-guide_/steps': typeof StudyGuideStepsRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/study-guide_/lessons/$subjectId/$lessonId': typeof StudyGuideLessonsSubjectIdLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/bookmarks'
+    | '/certificates'
+    | '/contact'
+    | '/courses'
+    | '/dashboard'
+    | '/downloads'
+    | '/faq'
+    | '/features'
+    | '/management'
+    | '/mcp'
+    | '/my-courses'
+    | '/practice'
+    | '/privacy'
+    | '/profile'
+    | '/progress'
+    | '/settings'
+    | '/site-content'
+    | '/study-guide'
+    | '/teacher'
+    | '/terms'
+    | '/wassce'
+    | '/.well-known/oauth-protected-resource'
+    | '/api/study-chat'
+    | '/courses/$subjectId'
+    | '/practice/past-questions'
+    | '/practice/study-notes'
+    | '/study-guide/$threadId'
+    | '/study-guide/steps'
+    | '/.lovable/oauth/consent'
+    | '/study-guide/lessons/$subjectId/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/bookmarks'
+    | '/certificates'
+    | '/contact'
+    | '/courses'
+    | '/dashboard'
+    | '/downloads'
+    | '/faq'
+    | '/features'
+    | '/management'
+    | '/mcp'
+    | '/my-courses'
+    | '/practice'
+    | '/privacy'
+    | '/profile'
+    | '/progress'
+    | '/settings'
+    | '/site-content'
+    | '/study-guide'
+    | '/teacher'
+    | '/terms'
+    | '/wassce'
+    | '/.well-known/oauth-protected-resource'
+    | '/api/study-chat'
+    | '/courses/$subjectId'
+    | '/practice/past-questions'
+    | '/practice/study-notes'
+    | '/study-guide/$threadId'
+    | '/study-guide/steps'
+    | '/.lovable/oauth/consent'
+    | '/study-guide/lessons/$subjectId/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/bookmarks'
+    | '/certificates'
+    | '/contact'
+    | '/courses'
+    | '/dashboard'
+    | '/downloads'
+    | '/faq'
+    | '/features'
+    | '/management'
+    | '/mcp'
+    | '/my-courses'
+    | '/practice'
+    | '/privacy'
+    | '/profile'
+    | '/progress'
+    | '/settings'
+    | '/site-content'
+    | '/study-guide'
+    | '/teacher'
+    | '/terms'
+    | '/wassce'
+    | '/.well-known/oauth-protected-resource'
+    | '/api/study-chat'
+    | '/courses_/$subjectId'
+    | '/practice_/past-questions'
+    | '/practice_/study-notes'
+    | '/study-guide_/$threadId'
+    | '/study-guide_/steps'
+    | '/.lovable/oauth/consent'
+    | '/study-guide_/lessons/$subjectId/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  BookmarksRoute: typeof BookmarksRoute
+  CertificatesRoute: typeof CertificatesRoute
+  ContactRoute: typeof ContactRoute
+  CoursesRoute: typeof CoursesRoute
+  DashboardRoute: typeof DashboardRoute
+  DownloadsRoute: typeof DownloadsRoute
+  FaqRoute: typeof FaqRoute
+  FeaturesRoute: typeof FeaturesRoute
+  ManagementRoute: typeof ManagementRoute
+  McpRoute: typeof McpRoute
+  MyCoursesRoute: typeof MyCoursesRoute
+  PracticeRoute: typeof PracticeRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ProfileRoute: typeof ProfileRoute
+  ProgressRoute: typeof ProgressRoute
+  SettingsRoute: typeof SettingsRoute
+  SiteContentRoute: typeof SiteContentRoute
+  StudyGuideRoute: typeof StudyGuideRoute
+  TeacherRoute: typeof TeacherRoute
+  TermsRoute: typeof TermsRoute
+  WassceRoute: typeof WassceRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  ApiStudyChatRoute: typeof ApiStudyChatRoute
+  CoursesSubjectIdRoute: typeof CoursesSubjectIdRoute
+  PracticePastQuestionsRoute: typeof PracticePastQuestionsRoute
+  PracticeStudyNotesRoute: typeof PracticeStudyNotesRoute
+  StudyGuideThreadIdRoute: typeof StudyGuideThreadIdRoute
+  StudyGuideStepsRoute: typeof StudyGuideStepsRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
+  StudyGuideLessonsSubjectIdLessonIdRoute: typeof StudyGuideLessonsSubjectIdLessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +470,269 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookmarks': {
+      id: '/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof BookmarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certificates': {
+      id: '/certificates'
+      path: '/certificates'
+      fullPath: '/certificates'
+      preLoaderRoute: typeof CertificatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses': {
+      id: '/courses'
+      path: '/courses'
+      fullPath: '/courses'
+      preLoaderRoute: typeof CoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downloads': {
+      id: '/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/management': {
+      id: '/management'
+      path: '/management'
+      fullPath: '/management'
+      preLoaderRoute: typeof ManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-courses': {
+      id: '/my-courses'
+      path: '/my-courses'
+      fullPath: '/my-courses'
+      preLoaderRoute: typeof MyCoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/site-content': {
+      id: '/site-content'
+      path: '/site-content'
+      fullPath: '/site-content'
+      preLoaderRoute: typeof SiteContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study-guide': {
+      id: '/study-guide'
+      path: '/study-guide'
+      fullPath: '/study-guide'
+      preLoaderRoute: typeof StudyGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teacher': {
+      id: '/teacher'
+      path: '/teacher'
+      fullPath: '/teacher'
+      preLoaderRoute: typeof TeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wassce': {
+      id: '/wassce'
+      path: '/wassce'
+      fullPath: '/wassce'
+      preLoaderRoute: typeof WassceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/study-chat': {
+      id: '/api/study-chat'
+      path: '/api/study-chat'
+      fullPath: '/api/study-chat'
+      preLoaderRoute: typeof ApiStudyChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses_/$subjectId': {
+      id: '/courses_/$subjectId'
+      path: '/courses/$subjectId'
+      fullPath: '/courses/$subjectId'
+      preLoaderRoute: typeof CoursesSubjectIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice_/past-questions': {
+      id: '/practice_/past-questions'
+      path: '/practice/past-questions'
+      fullPath: '/practice/past-questions'
+      preLoaderRoute: typeof PracticePastQuestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice_/study-notes': {
+      id: '/practice_/study-notes'
+      path: '/practice/study-notes'
+      fullPath: '/practice/study-notes'
+      preLoaderRoute: typeof PracticeStudyNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study-guide_/$threadId': {
+      id: '/study-guide_/$threadId'
+      path: '/study-guide/$threadId'
+      fullPath: '/study-guide/$threadId'
+      preLoaderRoute: typeof StudyGuideThreadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study-guide_/steps': {
+      id: '/study-guide_/steps'
+      path: '/study-guide/steps'
+      fullPath: '/study-guide/steps'
+      preLoaderRoute: typeof StudyGuideStepsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study-guide_/lessons/$subjectId/$lessonId': {
+      id: '/study-guide_/lessons/$subjectId/$lessonId'
+      path: '/study-guide/lessons/$subjectId/$lessonId'
+      fullPath: '/study-guide/lessons/$subjectId/$lessonId'
+      preLoaderRoute: typeof StudyGuideLessonsSubjectIdLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  BookmarksRoute: BookmarksRoute,
+  CertificatesRoute: CertificatesRoute,
+  ContactRoute: ContactRoute,
+  CoursesRoute: CoursesRoute,
+  DashboardRoute: DashboardRoute,
+  DownloadsRoute: DownloadsRoute,
+  FaqRoute: FaqRoute,
+  FeaturesRoute: FeaturesRoute,
+  ManagementRoute: ManagementRoute,
+  McpRoute: McpRoute,
+  MyCoursesRoute: MyCoursesRoute,
+  PracticeRoute: PracticeRoute,
+  PrivacyRoute: PrivacyRoute,
+  ProfileRoute: ProfileRoute,
+  ProgressRoute: ProgressRoute,
+  SettingsRoute: SettingsRoute,
+  SiteContentRoute: SiteContentRoute,
+  StudyGuideRoute: StudyGuideRoute,
+  TeacherRoute: TeacherRoute,
+  TermsRoute: TermsRoute,
+  WassceRoute: WassceRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  ApiStudyChatRoute: ApiStudyChatRoute,
+  CoursesSubjectIdRoute: CoursesSubjectIdRoute,
+  PracticePastQuestionsRoute: PracticePastQuestionsRoute,
+  PracticeStudyNotesRoute: PracticeStudyNotesRoute,
+  StudyGuideThreadIdRoute: StudyGuideThreadIdRoute,
+  StudyGuideStepsRoute: StudyGuideStepsRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
+  StudyGuideLessonsSubjectIdLessonIdRoute:
+    StudyGuideLessonsSubjectIdLessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
