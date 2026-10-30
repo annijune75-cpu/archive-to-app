@@ -1,5 +1,9 @@
 # BridgeLIB completion
 
+## Design pages
+- [x] Four-step student sign-up (Personal, Academic, Account, Complete) creating real accounts.
+- [x] Teacher dashboard from design using real classes, progress, assignments and analytics with empty states.
+
 ## Lovable Cloud migration
 - [x] Move code, database structure, roles and file storage to Lovable Cloud.
 - [ ] Import existing records and users: waiting on CSV/JSON exports from the old backend.
