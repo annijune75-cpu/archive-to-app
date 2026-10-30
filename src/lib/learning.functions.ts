@@ -24,7 +24,9 @@ export const workspaceData = createServerFn({ method: "POST" }).middleware([requ
     supabase.from('feature_settings').select('*'), supabase.from('class_invites').select('id,class_id,expires_at,max_uses,use_count,revoked_at'),
   ]);
   const failure = results.find(r => r.error); if (failure?.error) throw new Error(failure.error.message);
-  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [] };
+  const memberIds = [...new Set(((results[4]?.data ?? []) as Array<{ student_id: string }>).map(m => m.student_id).filter(id => id !== userId))];
+  const people = memberIds.length ? await supabase.from('profiles').select('id,full_name').in('id', memberIds) : { data: [], error: null };
+  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [], students: (people.data ?? []) as Array<{ id: string; full_name: string | null }> };
 });
 
 export const courseData = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.number().int().positive().parse(v)).handler(async ({ data, context: { supabase, userId } }) => {
