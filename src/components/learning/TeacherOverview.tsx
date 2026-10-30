@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { ArrowRight, Atom, BadgeCheck, BarChart3, ChevronDown, MoreVertical, Mail, PlayCircle, FileQuestion, Upload, BookOpen, Calculator, CheckCircle2, ClipboardCheck, ClipboardList, Download, FileText, FlaskConical, GraduationCap, House, Leaf, LogOut, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react';
+import { ArrowRight, Atom, BadgeCheck, BarChart3, ChevronDown, MoreVertical, Mail, PlayCircle, FileQuestion, Upload, BookOpen, Calculator, ClipboardList, Download, FileText, FlaskConical, GraduationCap, House, Leaf, LogOut, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react';
 import { teacherOverview, greeting } from '@/lib/teacher-overview';
 import type { workspaceData } from '@/lib/learning.functions';
 import { supabase } from '@/lib/supabase';
