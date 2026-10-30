@@ -486,6 +486,29 @@ export function BridgeHome() {
     }, 30);
   };
 
+  const isSignupWizard = mode === "signup" && !resetMode && !recoveryMode;
+
+  const goNextSignupStep = () => {
+    const step = authFormRef.current?.querySelector<HTMLElement>(`[data-step="${signupStep}"]`);
+    const fields = step ? Array.from(step.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")) : [];
+    for (const field of fields) {
+      if (!field.checkValidity()) {
+        field.reportValidity();
+        return;
+      }
+      if (field instanceof HTMLInputElement && field.type === "file" && field.files?.[0]) {
+        try {
+          validateStudentPhoto(field.files[0]);
+        } catch (error) {
+          setAuthMessage({ message: getErrorMessage(error, "Choose a different photo."), kind: "error" });
+          return;
+        }
+      }
+    }
+    setAuthMessage(null);
+    setSignupStep((s) => Math.min(3, s + 1));
+  };
+
   const onAuthSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -561,6 +584,7 @@ export function BridgeHome() {
         const yearText = String(form.get("examYear") ?? "").trim();
         const targetExamYear = yearText ? Number(yearText) : null;
 
+        if (password !== String(form.get("signupConfirm") ?? "")) throw new Error("The passwords do not match.");
         const registration = studentRegistrationSchema.safeParse({fullName,email,password,phone:String(form.get('phone')??''),school:String(form.get('schoolName')??''),learnerPath,educationLevel,gradeLevel:gradeLevel??'',targetExamYear});
         if (!registration.success) throw new Error(registration.error.issues[0]?.message ?? 'Check your account details.');
         const photo=form.get('studentPhoto');
@@ -613,10 +637,8 @@ export function BridgeHome() {
           setUser(data.user);
           await navigate({to:"/dashboard"});
         } else {
-          setAuthMessage({
-            message: "Account created. Check your email for a confirmation link, then sign in. Upload your photo from Profile after confirming your email; it has not been saved yet.",
-            kind: "success",
-          });
+          setAuthMessage(null);
+          setSignupDone(true);
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -1379,6 +1401,8 @@ export function BridgeHome() {
                     aria-selected={mode === "signup"}
                     onClick={() => {
                       setMode("signup");
+                      setSignupStep(1);
+                      setSignupDone(false);
                       setAuthMessage(null);
                     }}
                   >
