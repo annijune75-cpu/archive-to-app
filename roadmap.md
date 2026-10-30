@@ -1,5 +1,12 @@
 # BridgeLIB completion
 
+## Lovable Cloud migration
+- [x] Move code, database structure, roles and file storage to Lovable Cloud.
+- [ ] Import existing records and users: waiting on CSV/JSON exports from the old backend.
+- [ ] Make the first administrator account: waiting on the owner signing up.
+- [ ] Verify signed-in student/teacher/admin flows: needs a confirmed test account.
+
+
 - [ ] Automatically track annual Ministry curriculum and education-plan updates at the supplied official links; verify publications and preserve version history before integrating teaching content. Activation requires a reliable readable source, scheduled checks and restored original-backend storage.
 - [x] Add issued-record completion certificate PDF downloads and Ministry curriculum source links, with explicit distinction from official exam credentials.
 - [ ] Verify live issued-certificate download: original certificate migration/connection and signed-in account remain unavailable.
@@ -29,5 +36,3 @@
 - [ ] Finish remaining refinements (per-class teacher UI, pagination, server-side feature availability, detailed permission regression tests): blocked by restoring the external editor connection for further schema validation.
 - [ ] Verify student, teacher, and admin workflows with isolated accounts.
 
-Connection blocker: an unintended Cloud enable action changed editor bindings to a separate empty Cloud backend. The app explicitly remains on the original external BridgeLIB backend. Do not run more database tools against the new backend. External connection recovery requires workspace settings access; no safe reconnection tool is available.
-Testing blocker: dedicated signed-in test accounts are not currently configured; authenticated end-to-end checks are unavailable for the external unmanaged backend.
