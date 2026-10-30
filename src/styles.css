@@ -1996,3 +1996,25 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .bl-step-complete{text-align:center;display:grid;justify-items:center;gap:.75rem;padding:1rem 0;color:var(--foreground)}
 .bl-step-complete svg{color:var(--primary)}
 [data-step][hidden]{display:none!important}
+
+/* Teacher overview */
+.bl-t-banner{background:var(--primary);color:var(--primary-foreground);border-radius:1rem;padding:1.5rem 1.75rem}
+.bl-t-banner h2{font-size:1.6rem;font-weight:800;margin:0 0 .25rem}
+.bl-t-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.bl-t-wide{grid-column:1/-1}
+.bl-t-h{display:flex;align-items:center;gap:.4rem;font-weight:700;margin:0 0 .75rem}
+.bl-t-empty{font-size:.9rem}
+.bl-t-list{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.bl-t-list li{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-bottom:1px solid var(--border);padding-bottom:.5rem;font-size:.9rem}
+.bl-t-list li div{display:grid}.bl-t-list small{color:var(--muted-foreground)}
+.bl-t-donut-wrap{display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap}
+.bl-t-donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center}
+.bl-t-donut span{width:88px;height:88px;border-radius:50%;background:var(--card);display:grid;place-content:center;text-align:center;font-weight:800;font-size:1.2rem}
+.bl-t-donut small{font-size:.7rem;font-weight:500;color:var(--muted-foreground)}
+.bl-t-legend{list-style:none;padding:0;margin:0;display:grid;gap:.4rem;font-size:.9rem}
+.bl-t-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.4rem}
+.bl-t-legend .k1{background:var(--primary)}.bl-t-legend .k2{background:var(--accent-foreground,var(--secondary))}.bl-t-legend .k3{background:var(--muted)}
+.bl-t-bars{display:grid;gap:.6rem}
+.bl-t-bar{display:grid;grid-template-columns:minmax(90px,180px) 1fr 48px;gap:.75rem;align-items:center;font-size:.9rem}
+.bl-t-bar div{height:10px;background:var(--muted);border-radius:999px;overflow:hidden}
+.bl-t-bar i{display:block;height:100%;background:var(--primary)}
