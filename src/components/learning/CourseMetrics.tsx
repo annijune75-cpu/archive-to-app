@@ -6,5 +6,5 @@ export function useCourseMetrics() { const fetch=useServerFn(catalogueMetrics);r
 export function CourseMetrics({ subjectId, lessonsOnly = false }: {subjectId:number;lessonsOnly?:boolean}) {
  const q=useCourseMetrics();const m=q.data?.metrics.find(x=>Number(x.subject_id)===subjectId);
  if(lessonsOnly) return <span className="bl-course-lesson-badge"><BookOpen size={13}/>{m ? m.lesson_count : '—'} Lessons</span>;
- return <div className="bl-course-metrics"><span title={m?'Enrolled learners':'Counts unavailable until the data connection is restored'}><Users size={14}/>{m?Number(m.student_count).toLocaleString():'—'} Students</span><span><Star size={15}/>{m?.rating_average ?? '—'} ({m?.rating_count ?? '—'})</span></div>;
+ return <div className="bl-course-metrics"><span title={m?'Enrolled learners':'Counts unavailable right now'}><Users size={14}/>{m?Number(m.student_count).toLocaleString():'—'} Students</span><span><Star size={15}/>{m?.rating_average ?? '—'} ({m?.rating_count ?? '—'})</span></div>;
 }
