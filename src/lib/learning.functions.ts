@@ -22,11 +22,12 @@ export const workspaceData = createServerFn({ method: "POST" }).middleware([requ
     supabase.from('assignment_submissions').select('*'), supabase.from('course_enrollments').select('*'),
     supabase.from('lesson_completions').select('*'), supabase.from('exam_attempts').select('*').eq('user_id', userId).order('submitted_at', { ascending: false }).limit(100),
     supabase.from('feature_settings').select('*'), supabase.from('class_invites').select('id,class_id,expires_at,max_uses,use_count,revoked_at'),
+    supabase.from('class_messages').select('*').order('created_at', { ascending: false }).limit(50), supabase.from('class_content').select('*').order('created_at', { ascending: false }),
   ]);
   const failure = results.find(r => r.error); if (failure?.error) throw new Error(failure.error.message);
   const memberIds = [...new Set(((results[4]?.data ?? []) as Array<{ student_id: string }>).map(m => m.student_id).filter(id => id !== userId))];
   const people = memberIds.length ? await supabase.from('profiles').select('id,full_name').in('id', memberIds) : { data: [], error: null };
-  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [], students: (people.data ?? []) as Array<{ id: string; full_name: string | null }> };
+  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [], students: (people.data ?? []) as Array<{ id: string; full_name: string | null }>, messages: results[12]?.data ?? [], content: results[13]?.data ?? [] };
 });
 
 export const courseData = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.number().int().positive().parse(v)).handler(async ({ data, context: { supabase, userId } }) => {
@@ -41,7 +42,7 @@ export const learningAction = createServerFn({ method: 'POST' }).middleware([req
   if (r.error) throw new Error(r.error.message); return { ok: true };
 });
 
-export const teacherAction = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.discriminatedUnion('kind', [z.object({ kind: z.literal('class'), value: classSchema }), z.object({ kind: z.literal('assignment'), value: assignmentSchema }), z.object({ kind: z.literal('submission'), value: submissionSchema }), z.object({ kind: z.literal('grade'), value: gradeSchema }), z.object({ kind: z.literal('invite'), class_id: z.string().uuid(), days: z.number().int().min(1).max(30), max_uses: z.number().int().min(1).max(1000) }), z.object({ kind: z.literal('revoke'), id: z.string().uuid() }), z.object({ kind: z.literal('archive'), id: z.string().uuid() }), z.object({ kind: z.literal('remove_member'), id: z.string().uuid() })]).parse(v)).handler(async ({ data, context: { supabase, userId } }) => {
+export const teacherAction = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.discriminatedUnion('kind', [z.object({ kind: z.literal('class'), value: classSchema }), z.object({ kind: z.literal('assignment'), value: assignmentSchema }), z.object({ kind: z.literal('submission'), value: submissionSchema }), z.object({ kind: z.literal('grade'), value: gradeSchema }), z.object({ kind: z.literal('invite'), class_id: z.string().uuid(), days: z.number().int().min(1).max(30), max_uses: z.number().int().min(1).max(1000) }), z.object({ kind: z.literal('revoke'), id: z.string().uuid() }), z.object({ kind: z.literal('archive'), id: z.string().uuid() }), z.object({ kind: z.literal('remove_member'), id: z.string().uuid() }), z.object({ kind: z.literal('content'), value: z.object({ class_id: z.string().uuid(), kind: z.enum(['lesson', 'quiz', 'resource']), title: z.string().trim().min(1).max(200), body: z.string().max(20000).optional(), link_url: z.string().url().regex(/^https?:\/\//).optional(), questions: z.array(z.object({ q: z.string().min(1).max(500), options: z.array(z.string().min(1).max(200)).min(2).max(6), answer: z.number().int().min(0) })).max(50).optional() }) }), z.object({ kind: z.literal('message'), value: z.object({ class_id: z.string().uuid(), recipient_id: z.string().uuid().nullable(), body: z.string().trim().min(1).max(2000) }) }), z.object({ kind: z.literal('read'), id: z.string().uuid() })]).parse(v)).handler(async ({ data, context: { supabase, userId } }) => {
   let r;
   if (data.kind === 'class') r = await supabase.from('classes').insert({ ...data.value, created_by: userId });
   else if (data.kind === 'assignment') r = await supabase.from('class_assignments').insert({ ...data.value, created_by: userId });
@@ -53,6 +54,9 @@ export const teacherAction = createServerFn({ method: 'POST' }).middleware([requ
   else if (data.kind === 'invite') r = await supabase.rpc('create_class_invite', { p_class_id: data.class_id, p_days: data.days, p_max_uses: data.max_uses });
   else if (data.kind === 'revoke') r = await supabase.from('class_invites').update({ revoked_at: new Date().toISOString() }).eq('id', data.id).select('id').single();
   else if (data.kind === 'archive') r = await supabase.from('classes').update({ status: 'archived' }).eq('id', data.id).select('id').single();
+  else if (data.kind === 'content') r = await supabase.from('class_content').insert({ ...data.value, created_by: userId });
+  else if (data.kind === 'message') r = await supabase.from('class_messages').insert({ ...data.value, sender_id: userId });
+  else if (data.kind === 'read') r = await supabase.from('class_messages').update({ read_at: new Date().toISOString() }).eq('id', data.id).select('id').single();
   else r = await supabase.from('class_memberships').delete().eq('id', data.id).select('id').single();
   if (r.error) throw new Error(r.error.message); return { ok: true, code: typeof r.data === 'string' ? r.data : null };
 });
