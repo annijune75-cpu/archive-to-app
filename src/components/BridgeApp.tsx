@@ -1800,7 +1800,7 @@ export function PracticePage() {
       const item = await feedback({ data: { question_id: qid, selected_option: oid } });
       if (version !== feedbackVersion.current) return;
       setReview(prev => [...prev.filter(r => r.question_id !== qid), { ...item, prompt: question.prompt }]);
-    } catch { setErrorMessage('Immediate feedback is waiting for the original data connection. You can still submit your test for marking.'); }
+    } catch { setErrorMessage('Immediate feedback could not load for this answer. You can still submit your test for marking.'); }
   }
 
   function resetPractice() {
