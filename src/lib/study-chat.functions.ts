@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireBridgeAuth } from "./bridge-auth";
 const missing =
-  "Account-saved study conversations are unavailable until the original website data connection is restored.";
+  "Account-saved study conversations are temporarily unavailable. Please try again.";
 export const studyThreads = createServerFn({ method: "POST" })
   .middleware([requireBridgeAuth])
   .handler(async ({ context }) => {

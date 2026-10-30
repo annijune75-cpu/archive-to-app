@@ -601,7 +601,7 @@ export function BridgeHome() {
           const photoPath=`${data.user.id}/profile.${photo.type==='image/png'?'png':photo.type==='image/webp'?'webp':'jpg'}`;
           const uploaded=await supabase.storage.from('student-photos').upload(photoPath,photo,{upsert:true});
           if(!uploaded.error) await supabase.auth.updateUser({data:{student_photo_path:photoPath}});
-          else setToast({kind:'error',message:'Account created. Photo storage is not connected yet; your photo was not saved.'});
+          else setToast({kind:'error',message:'Account created, but your photo could not be saved. You can add it later from your profile.'});
 
           setAuthMessage({
             message: "Your account is ready. Opening your BridgeLIB space…",

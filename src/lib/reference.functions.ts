@@ -5,7 +5,7 @@ import { requireBridgeAuth } from './bridge-auth';
 import { BRIDGE_SUPABASE_URL, BRIDGE_PUBLISHABLE_KEY, publishableFetch } from './supabase';
 import { bookmarkSchema, ratingSchema, type CourseMetric } from './reference-features';
 
-const unavailable = 'This feature is waiting for the original website data connection to be restored.';
+const unavailable = 'This feature is temporarily unavailable. Please try again.';
 export const catalogueMetrics = createServerFn({ method: 'GET' }).handler(async () => {
   const client = createClient(BRIDGE_SUPABASE_URL, BRIDGE_PUBLISHABLE_KEY, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: publishableFetch } });
   const { data, error } = await client.rpc('bridge_course_metrics');

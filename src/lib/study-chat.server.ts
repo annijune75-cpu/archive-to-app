@@ -47,7 +47,7 @@ export async function handleStudyChat(request: Request) {
       .maybeSingle();
     if (owner.error)
       return reply(
-        "Account-saved conversations are unavailable. The original website data connection must be restored.",
+        "Account-saved conversations are temporarily unavailable. Please try again.",
         503,
       );
     if (!owner.data) return reply("Conversation unavailable.", 404);
