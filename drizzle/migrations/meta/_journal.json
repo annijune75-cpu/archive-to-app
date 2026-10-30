@@ -15,6 +15,13 @@
       "when": 1793361000587,
       "tag": "0001_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793367496648,
+      "tag": "0002_teacher_messages_quizzes_resources",
+      "breakpoints": true
     }
   ]
 }
