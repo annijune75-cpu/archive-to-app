@@ -45,7 +45,7 @@ function LineChart({ s }: { s: ReturnType<typeof teacherOverview>['series'] }) {
   </svg>;
 }
 
-type Save = (data: Parameters<typeof teacherAction>[0]['data'], ok: string) => Promise<void>;
+type Save = (data: NonNullable<Parameters<typeof teacherAction>[0]>['data'], ok: string) => Promise<void>;
 
 function ContentBuilder({ d, save, busy }: { d: Data; save: Save; busy: boolean }) {
   const [kind, setKind] = useState<'lesson' | 'quiz' | 'resource'>('lesson');
