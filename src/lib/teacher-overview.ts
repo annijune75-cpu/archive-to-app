@@ -1,5 +1,5 @@
 type Cls = { id: string; name: string; subject_id: number | null; status: string };
-type Mem = { class_id: string; status: string };
+type Mem = { class_id: string; student_id: string; status: string };
 type Asg = { id: string; class_id: string; title: string; due_at: string | null; max_score: number };
 type Sub = { assignment_id: string; student_id: string; score: number | null; created_at: string };
 
@@ -28,7 +28,7 @@ export function teacherOverview(input: { classes: Cls[]; memberships: Mem[]; ass
 
   const recent = [...input.submissions].sort((x, y) => y.created_at.localeCompare(x.created_at)).slice(0, 5);
 
-  return { students: new Set(active.map((m) => m.class_id + ':' + (m as Mem & { student_id?: string }).student_id)).size, progress: { graded, awaiting, missing }, upcoming, classStats, recent };
+  return { students: new Set(active.map((m) => m.student_id)).size, progress: { graded, awaiting, missing }, upcoming, classStats, recent };
 }
 
 export function greeting(date = new Date()) {
