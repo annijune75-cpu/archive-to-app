@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { ArrowRight, Atom, BadgeCheck, BarChart3, ChevronDown, MoreVertical, Mail, PlayCircle, FileQuestion, Upload, BookOpen, Calculator, ClipboardList, Download, FileText, FlaskConical, GraduationCap, House, Leaf, LogOut, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react';
 import { teacherOverview, greeting } from '@/lib/teacher-overview';
-import type { workspaceData } from '@/lib/learning.functions';
+import type { teacherAction, workspaceData } from '@/lib/learning.functions';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { LiberiaFlag } from '@/components/site/SiteChrome';
@@ -45,7 +45,44 @@ function LineChart({ s }: { s: ReturnType<typeof teacherOverview>['series'] }) {
   </svg>;
 }
 
-export function TeacherOverview({ d }: { d: Data }) {
+type Save = (data: Parameters<typeof teacherAction>[0]['data'], ok: string) => Promise<void>;
+
+function ContentBuilder({ d, save, busy }: { d: Data; save: Save; busy: boolean }) {
+  const [kind, setKind] = useState<'lesson' | 'quiz' | 'resource'>('lesson');
+  const [qs, setQs] = useState([{ q: '', options: ['', '', '', ''], answer: 0 }]);
+  const count = (k: string) => d.content.filter((c) => c.kind === k).length;
+  if (d.classes.length === 0) return <p className="tc-empty">Create a course first, then add lessons, quizzes and resources to it.</p>;
+  return <>
+    <ul className="tc-keys"><li><PlayCircle size={14} /> Lessons: {count('lesson')}</li><li><FileQuestion size={14} /> Quizzes: {count('quiz')}</li><li><Upload size={14} /> Resources: {count('resource')}</li></ul>
+    <div className="tc-tabs" role="tablist">{(['lesson', 'quiz', 'resource'] as const).map((k) => <button key={k} type="button" role="tab" aria-selected={kind === k} className={kind === k ? 'is-on' : ''} onClick={() => setKind(k)}>{k === 'lesson' ? 'Create Lesson' : k === 'quiz' ? 'Create Quiz' : 'Upload Resource'}</button>)}</div>
+    <form className="tc-form" onSubmit={(e) => { e.preventDefault(); const f = new FormData(e.currentTarget); const el = e.currentTarget; const link = String(f.get('link') || '').trim();
+      void save({ kind: 'content', value: { class_id: String(f.get('class')), kind, title: String(f.get('title')), body: String(f.get('body') || '') || undefined, link_url: link || undefined, questions: kind === 'quiz' ? qs.map((q) => ({ ...q, options: q.options.filter(Boolean) })) : undefined } }, `${kind === 'lesson' ? 'Lesson' : kind === 'quiz' ? 'Quiz' : 'Resource'} saved.`).then(() => { el.reset(); setQs([{ q: '', options: ['', '', '', ''], answer: 0 }]); }); }}>
+      <label>Course<select name="class" required>{d.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+      <label>Title<input name="title" required maxLength={200} /></label>
+      {kind !== 'quiz' && <label>{kind === 'lesson' ? 'Lesson content' : 'Description'}<textarea name="body" rows={4} maxLength={20000} required={kind === 'lesson'} /></label>}
+      {kind === 'resource' && <label>Resource link (https://…)<input name="link" type="url" required pattern="https?://.+" /></label>}
+      {kind === 'quiz' && qs.map((q, i) => <fieldset key={i} className="tc-q"><legend>Question {i + 1}</legend>
+        <input aria-label={`Question ${i + 1}`} required value={q.q} onChange={(e) => setQs(qs.map((x, j) => j === i ? { ...x, q: e.target.value } : x))} />
+        {q.options.map((o, k) => <label key={k} className="tc-opt"><input type="radio" name={`ans${i}`} checked={q.answer === k} onChange={() => setQs(qs.map((x, j) => j === i ? { ...x, answer: k } : x))} aria-label="Correct answer" /><input aria-label={`Option ${k + 1}`} required={k < 2} value={o} onChange={(e) => setQs(qs.map((x, j) => j === i ? { ...x, options: x.options.map((y, m) => m === k ? e.target.value : y) } : x))} /></label>)}
+      </fieldset>)}
+      {kind === 'quiz' && <Button type="button" variant="outline" onClick={() => setQs([...qs, { q: '', options: ['', '', '', ''], answer: 0 }])}>Add question</Button>}
+      <Button disabled={busy}>Save</Button>
+    </form>
+    {d.content.length === 0 ? <p className="tc-empty">Nothing created yet.</p> : <ul className="tc-up">{d.content.slice(0, 5).map((c) => <li key={c.id}>{c.kind === 'quiz' ? <FileQuestion size={16} /> : c.kind === 'lesson' ? <PlayCircle size={16} /> : <Upload size={16} />}<div><b>{c.title}</b><small>{d.classes.find((x) => x.id === c.class_id)?.name} · {c.kind}{c.link_url ? <> · <a href={c.link_url} target="_blank" rel="noreferrer">Open</a></> : null}</small></div></li>)}</ul>}
+  </>;
+}
+
+function Messages({ d, save, busy, name }: { d: Data; save: Save; busy: boolean; name: (id: string) => string }) {
+  const inbox = d.messages.filter((m) => m.sender_id !== d.userId).slice(0, 4);
+  return <>
+    {inbox.length === 0 ? <p className="tc-empty">No messages yet. Messages from your students will appear here.</p> : <ul className="tc-msgs">{inbox.map((m) => <li key={m.id}><span className="tc-av lg">{initials(name(m.sender_id))}</span><div><b>{name(m.sender_id)} <small>(Student)</small></b><p>{m.body}</p></div><div className="tc-msg-meta"><small>{new Date(m.created_at).toLocaleDateString()}</small>{!m.read_at && <button type="button" className="tc-dot" aria-label="Mark as read" onClick={() => void save({ kind: 'read', id: m.id }, 'Marked as read.')} />}</div></li>)}</ul>}
+    {d.classes.length > 0 && <form className="tc-form" onSubmit={(e) => { e.preventDefault(); const f = new FormData(e.currentTarget); const el = e.currentTarget; void save({ kind: 'message', value: { class_id: String(f.get('class')), recipient_id: null, body: String(f.get('body')) } }, 'Message sent to the class.').then(() => el.reset()); }}>
+      <label>Send to class<select name="class">{d.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+      <label>Message<textarea name="body" rows={2} required maxLength={2000} /></label><Button disabled={busy}>Send</Button></form>}
+  </>;
+}
+
+export function TeacherOverview({ d, save, busy }: { d: Data; save: Save; busy: boolean }) {
   const o = teacherOverview(d);
   const name = (d.profile as { full_name?: string | null } | null)?.full_name?.trim();
   const subjectName = (id: number | null) => d.subjects.find((s) => s.id === id)?.name ?? 'General';
@@ -63,7 +100,7 @@ export function TeacherOverview({ d }: { d: Data }) {
   return <section className="tc" aria-label="Teacher overview" id="teacher-top">
     <div className="tc-hero"><img src={heroPhoto} alt="Liberian teacher with his students" width={1600} height={640} />
       <div className="tc-hero-copy"><h1>{greeting()}{name ? `, ${name}` : ''}!</h1><p>You're making a difference in the lives of Liberian students.<br />Keep inspiring and building a brighter future.</p>
-        <div className="tc-hero-stats">{([[BookOpen, 'Courses', d.classes.length], [Users, 'Students', o.students], [ClipboardList, 'Assignments', d.assignments.length], [FileQuestion, 'Quizzes', 0]] as const).map(([I, l, v]) => <span key={l}><i><I size={18} /></i><b><small>{l}</small>{v}</b></span>)}</div></div>
+        <div className="tc-hero-stats">{([[BookOpen, 'Courses', d.classes.length], [Users, 'Students', o.students], [ClipboardList, 'Assignments', d.assignments.length], [FileQuestion, 'Quizzes', d.content.filter((c) => c.kind === 'quiz').length]] as const).map(([I, l, v]) => <span key={l}><i><I size={18} /></i><b><small>{l}</small>{v}</b></span>)}</div></div>
       <div className="tc-hero-tag">Quality<br />Education<br />for a Stronger<br />Liberia</div></div>
 
     <div className="tc-cols">
@@ -98,11 +135,10 @@ export function TeacherOverview({ d }: { d: Data }) {
       <aside className="tc-side">
         <article className="tc-card"><Head title="Quick Actions" /><div className="tc-quick">{([['create-class', 'Create Course', 'Add a new course', BookOpen, 'blue'], ['t-create', 'Create Lesson', 'Add lesson content', PlayCircle, 'red'], ['t-create', 'Create Quiz', 'Build assessments', FileQuestion, 'green'], ['classes', 'Manage Students', 'View & support learners', Users, 'purple'], ['t-create', 'Upload Resources', 'Add study materials', Upload, 'orange'], ['t-analytics', 'View Reports', 'Check performance', BarChart3, 'teal']] as const).map(([id, t, s, I, tone]) => <a key={t} href={`#${id}`} onClick={jump(id)}><span className={`tc-ico ${tone}`}><I size={18} /></span><div><b>{t}</b><small>{s}</small></div></a>)}</div></article>
         <article className="tc-card" id="t-messages"><Head title="Recent Messages" action={<span className="tc-link">View All <ArrowRight size={13} /></span>} />
-          <p className="tc-empty"><MessageEmpty /></p>
+          <Messages d={d} save={save} busy={busy} name={studentName} />
         </article>
         <article className="tc-card" id="t-create"><Head title="Lessons, Quizzes & Resources" />
-          <ul className="tc-keys"><li><PlayCircle size={14} /> Lessons: 0</li><li><FileQuestion size={14} /> Quizzes: 0</li><li><Upload size={14} /> Resources: 0</li></ul>
-          <p className="tc-empty">Nothing created yet. The lesson, quiz and resource builders will save here once they are switched on.</p>
+          <ContentBuilder d={d} save={save} busy={busy} />
         </article>
         <article className="tc-card" id="t-recent"><Head title="Recent Submissions" />
           {o.recent.length === 0 ? <p className="tc-empty">No student work submitted yet.</p> : <ul className="tc-msgs">{o.recent.map((s) => { const a = d.assignments.find((x) => x.id === s.assignment_id); const n = studentName(s.student_id); return <li key={s.assignment_id + s.student_id}><span className="tc-av lg">{initials(n)}</span><div><b>{n} <small>(Student)</small></b><p>{a?.title ?? 'Assignment'}</p></div><div className="tc-msg-meta"><small>{new Date(s.created_at).toLocaleDateString()}</small>{s.score === null ? <em>Needs grading</em> : <b>{s.score}/{a?.max_score ?? '?'}</b>}</div></li>; })}</ul>}
@@ -113,4 +149,3 @@ export function TeacherOverview({ d }: { d: Data }) {
   </section>;
 }
 
-function MessageEmpty() { return <>No messages yet. Messages from your students will appear here.</>; }

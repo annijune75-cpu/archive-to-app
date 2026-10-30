@@ -2109,3 +2109,13 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .tc-link{display:inline-flex;align-items:center;gap:4px;color:var(--primary);font-size:12px;font-weight:600}
 .tc-kebab{display:inline-flex;align-items:center;padding:4px;color:var(--muted-foreground)}
 .tc-out{display:inline-flex;align-items:center;gap:4px}
+.tc-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tc-tabs button{padding:6px 10px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-weight:600;background:var(--card);color:var(--foreground)}
+.tc-tabs button.is-on{background:var(--primary);color:var(--primary-foreground);border-color:var(--primary)}
+.tc-form{display:grid;gap:8px;margin:8px 0;font-size:13px}
+.tc-form label{display:grid;gap:4px}
+.tc-form input,.tc-form select,.tc-form textarea{border:1px solid var(--border);border-radius:8px;padding:6px 8px;background:var(--background);color:var(--foreground)}
+.tc-q{border:1px solid var(--border);border-radius:8px;padding:8px;display:grid;gap:6px}
+.tc-opt{display:flex!important;align-items:center;gap:6px}
+.tc-opt input[type=text],.tc-opt input:not([type]){flex:1}
+.tc-dot{width:9px;height:9px;border-radius:50%;background:var(--bl-red);border:0}
