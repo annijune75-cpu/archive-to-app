@@ -6,7 +6,6 @@ import {
   FileText,
   GraduationCap,
   NotebookPen,
-  PlayCircle,
   UsersRound,
 } from "lucide-react";
 import type { ReactNode } from "react";
@@ -30,7 +29,6 @@ const featureList = [
   { icon: FileText, title: "Past questions", text: "Practise real WASSCE-style questions.", to: "/practice" },
   { icon: ClipboardCheck, title: "Mock tests", text: "Timed practice exams with instant scores.", to: "/practice" },
   { icon: NotebookPen, title: "Study notes", text: "Key concepts and tips inside each course.", to: "/courses" },
-  { icon: PlayCircle, title: "Video lessons", text: "Watch lessons attached to course topics.", to: "/courses" },
   { icon: BarChart3, title: "Progress tracking", text: "See completed lessons and exam results.", to: "/dashboard" },
   { icon: UsersRound, title: "Classes", text: "Teachers create classes and assignments.", to: "/teacher" },
   { icon: GraduationCap, title: "WASSCE preparation", text: "Everything you need for exam day.", to: "/wassce" },
@@ -65,6 +63,7 @@ const faqs = [
 export function FaqPage() {
   return (
     <PageShell title="Frequently Asked Questions" intro="Quick answers to common questions about BridgeLIB.">
+      {!parseBlocks(useSiteContent().data?.faq).length && <p role="note" className="bl-notice">Draft text — under review before launch. Not final policy.</p>}
       <div style={{ display: "grid", gap: 12 }}>
         {(parseBlocks(useSiteContent().data?.faq).length ? parseBlocks(useSiteContent().data?.faq) : faqs).map(([q, a]) => (
           <details key={q} className="bl-card" style={{ padding: 18 }}>
@@ -97,6 +96,7 @@ export function TermsPage() {
   const custom = parseBlocks(useSiteContent().data?.terms);
   return (
     <PageShell title="Terms of Service" intro="The rules for using BridgeLIB.">
+      {!custom.length && <p role="note" className="bl-notice">Draft text — under review before launch. Not final policy.</p>}
       <Sections
         items={custom.length ? custom : [
           ["Using BridgeLIB", "BridgeLIB is an educational platform. Use it for learning and teaching only."],
@@ -114,6 +114,7 @@ export function PrivacyPage() {
   const custom = parseBlocks(useSiteContent().data?.privacy);
   return (
     <PageShell title="Privacy Policy" intro="How BridgeLIB handles your information.">
+      {!custom.length && <p role="note" className="bl-notice">Draft text — under review before launch. Not final policy.</p>}
       <Sections
         items={custom.length ? custom : [
           ["What we collect", "Your name, email, school details you provide, and your learning progress."],
