@@ -24,7 +24,14 @@ function useTeacherProfile() {
     await supabase.auth.updateUser({ data: { student_photo_path: path } });
     const u = await supabase.storage.from('student-photos').createSignedUrl(path, 3600); if (u.data) { setPhoto(u.data.signedUrl); window.dispatchEvent(new CustomEvent('tc-photo', { detail: u.data.signedUrl })); }
   }
-  return { name, photo, upload, err };
+  async function remove() {
+    setErr(''); const { data } = await supabase.auth.getUser(); if (!data.user) return;
+    const path = data.user.user_metadata['student_photo_path'];
+    if (typeof path === 'string' && path.startsWith(`${data.user.id}/`)) { const r = await supabase.storage.from('student-photos').remove([path]); if (r.error) { setErr('Photo could not be removed.'); return; } }
+    await supabase.auth.updateUser({ data: { student_photo_path: null } });
+    setPhoto(''); window.dispatchEvent(new CustomEvent('tc-photo', { detail: '' }));
+  }
+  return { name, photo, upload, remove, err };
 }
 
 function Avatar({ photo, name, size }: { photo: string; name: string; size: number }) {
@@ -42,11 +49,12 @@ export function TeacherHeaderActions({ d }: { d?: Data | undefined }) {
   </div>;
 }
 
-export function TeacherSidebar() {
-  const { name, photo, upload, err } = useTeacherProfile(); const navigate = useNavigate();
+export function TeacherSidebar({ d }: { d?: Data | undefined }) {
+  const { name, photo, upload, remove, err } = useTeacherProfile();
+  const unread = d ? d.messages.filter((m) => m.sender_id !== d.userId && !m.read_at).length : 0; const navigate = useNavigate();
   const items: [string, string, typeof House][] = [['top', 'Dashboard', House], ['t-courses', 'My Courses', BookOpen], ['create-class', 'Create Course', PlusCircle], ['t-create', 'Create Lesson', PlayCircle], ['t-create', 'Create Quiz', FileQuestion], ['t-upcoming', 'Assignments', ClipboardList], ['t-progress', 'Student Progress', BarChart3], ['t-recent', 'Grading', FileText], ['t-messages', 'Messages', Mail]];
-  return <aside className="bl-pt-side" aria-label="Teacher menu"><div className="bl-pt-user"><label className="tc-photo-pick" title="Change profile photo"><Avatar photo={photo} name={name} size={56} /><i><Camera size={12} /></i><input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" aria-label="Upload profile photo" onChange={(e) => { const f = e.target.files?.[0]; if (f) void upload(f); }} /></label><div><strong>{name}</strong><span>Teacher</span><em className="tc-badge"><BadgeCheck size={12} />Verification pending</em>{err && <small role="alert">{err}</small>}</div></div><nav>
-    {items.map(([id, label, Icon], i) => <a key={label} href={`#${id}`} onClick={jump(id === 'top' ? 'teacher-top' : id)} className={i === 0 ? 'is-active' : ''}><Icon size={18} />{label}</a>)}
+  return <aside className="bl-pt-side" aria-label="Teacher menu"><div className="bl-pt-user"><label className="tc-photo-pick" title="Change profile photo"><Avatar photo={photo} name={name} size={56} /><i><Camera size={12} /></i><input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" aria-label="Upload profile photo" onChange={(e) => { const f = e.target.files?.[0]; if (f) void upload(f); }} /></label><div><strong>{name}</strong><span>Teacher</span><em className="tc-badge"><BadgeCheck size={12} />Verification pending</em>{photo && <button type="button" className="tc-linkbtn tc-rm" onClick={() => void remove()}>Remove photo</button>}{err && <small role="alert">{err}</small>}</div></div><nav>
+    {items.map(([id, label, Icon], i) => <a key={label} href={`#${id}`} onClick={jump(id === 'top' ? 'teacher-top' : id)} className={i === 0 ? 'is-active' : ''}><Icon size={18} />{label}{label === 'Messages' && unread > 0 && <em className="tc-count" aria-label={`${unread} unread`}>{unread}</em>}</a>)}
     <Link to="/certificates"><GraduationCap size={18} />Certificates</Link>
     <Link to="/downloads"><Download size={18} />Resources</Link>
     <Link to="/settings"><Settings size={18} />Settings</Link>
