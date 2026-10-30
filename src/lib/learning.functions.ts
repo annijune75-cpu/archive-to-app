@@ -56,7 +56,6 @@ export const teacherAction = createServerFn({ method: 'POST' }).middleware([requ
   else if (data.kind === 'archive') r = await supabase.from('classes').update({ status: 'archived' }).eq('id', data.id).select('id').single();
   else if (data.kind === 'delete_content') r = await supabase.from('class_content').delete().eq('id', data.id).select('id').single();
   else if (data.kind === 'content') { if (data.value.file_path && !data.value.file_path.startsWith(data.value.class_id + '/')) throw new Error('File does not belong to this course.'); r = await supabase.from('class_content').insert({ ...data.value, created_by: userId }); }
-  else if (false) r = await supabase.from('class_content').insert({ ...data.value, created_by: userId });
   else if (data.kind === 'message') r = await supabase.from('class_messages').insert({ ...data.value, sender_id: userId });
   else if (data.kind === 'read') r = await supabase.from('class_messages').update({ read_at: new Date().toISOString() }).eq('id', data.id).select('id').single();
   else r = await supabase.from('class_memberships').delete().eq('id', data.id).select('id').single();

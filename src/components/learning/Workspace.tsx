@@ -9,7 +9,7 @@ import { SiteHeader, EmptyState } from '@/components/site/SiteChrome';
 import { Button } from '@/components/ui/button';
 import { TeacherHeaderActions, TeacherOverview, TeacherSidebar } from './TeacherOverview';
 
-function TeacherShell({ children, d }: { children: ReactNode; d?: Parameters<typeof TeacherHeaderActions>[0]['d'] }) {
+function TeacherShell({ children, d }: { children: ReactNode; d?: Parameters<typeof TeacherHeaderActions>[0]['d'] | undefined }) {
   return <div className="bl-site bl-sd-site"><SiteHeader actions={<TeacherHeaderActions d={d} />} /><div className="bl-sd-layout"><TeacherSidebar /><main className="bl-sd-main tc-main-wrap">{children}</main></div></div>;
 }
 

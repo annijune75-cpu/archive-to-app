@@ -31,7 +31,7 @@ function Avatar({ photo, name, size }: { photo: string; name: string; size: numb
   return photo ? <img src={photo} alt={name} width={size} height={size} className="tc-photo" style={{ width: size, height: size }} /> : <span className="tc-photo tc-photo-empty" style={{ width: size, height: size }}><User size={size / 2} /></span>;
 }
 
-export function TeacherHeaderActions({ d }: { d?: Data }) {
+export function TeacherHeaderActions({ d }: { d?: Data | undefined }) {
   const { name, photo } = useTeacherProfile(); const [open, setOpen] = useState(false);
   const unread = d ? d.messages.filter((m) => m.sender_id !== d.userId && !m.read_at) : [];
   const toGrade = d ? d.submissions.filter((s) => s.score === null).length : 0;
@@ -160,19 +160,19 @@ export function TeacherOverview({ d, save, busy }: { d: Data; save: Save; busy: 
         </article>
 
         <div className="tc-row">
-          <article className="tc-card" id="t-progress"><Head title="Student Progress Overview" action={<ViewAll on={!!more.p} set={tog('p')} label="View All Progress" />} />
+          <article className="tc-card" id="t-progress"><Head title="Student Progress Overview" action={<ViewAll on={!!more['p']} set={tog('p')} label="View All Progress" />} />
             <div className="tc-prog"><div>{total === 0 ? <p className="tc-empty">No assignment activity yet.</p> : <div className="tc-donut-wrap"><div className="tc-donut" style={{ background: donut }} role="img" aria-label={`${graded} graded, ${awaiting} awaiting grading, ${missing} not submitted`}><span><b>{total}</b><small>Total Tasks</small></span></div>
               <ul className="tc-legend"><li><i className="k1" />Graded <em>{Math.round(pct(graded))}% ({graded})</em></li><li><i className="k2" />Awaiting <em>{Math.round(pct(awaiting))}% ({awaiting})</em></li><li><i className="k3" />Not submitted <em>{Math.round(pct(missing))}% ({missing})</em></li></ul></div>}</div>
               <div className="tc-top"><h3>Top Performing Students</h3>{o.topStudents.length === 0 ? <p className="tc-empty">Appears after you grade work.</p> : <ol>{o.topStudents.map((s, i) => <li key={s.student_id}><span className="tc-av">{initials(studentName(s.student_id))}</span>{i + 1}. {studentName(s.student_id)}<b>{s.average}%</b></li>)}</ol>}</div></div>
           </article>
-          <article className="tc-card" id="t-upcoming"><Head title="Upcoming Assignments" action={<ViewAll on={!!more.u} set={tog('u')} />} />
-            {o.upcoming.length === 0 ? <p className="tc-empty">No assignments with an upcoming due date.</p> : <ul className="tc-up">{o.upcoming.slice(0, more.u ? undefined : 4).map((a) => <li key={a.id}><ClipboardList size={16} /><div><b>{d.classes.find((c) => c.id === a.class_id)?.name ?? 'Class'} – {a.title}</b><small>Due: {new Date(a.due_at!).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</small></div><em className={a.urgency}>{a.urgency === 'soon' ? 'Due soon' : a.urgency === 'week' ? 'This week' : 'Later'}</em></li>)}</ul>}
+          <article className="tc-card" id="t-upcoming"><Head title="Upcoming Assignments" action={<ViewAll on={!!more['u']} set={tog('u')} />} />
+            {o.upcoming.length === 0 ? <p className="tc-empty">No assignments with an upcoming due date.</p> : <ul className="tc-up">{o.upcoming.slice(0, more['u'] ? undefined : 4).map((a) => <li key={a.id}><ClipboardList size={16} /><div><b>{d.classes.find((c) => c.id === a.class_id)?.name ?? 'Class'} – {a.title}</b><small>Due: {new Date(a.due_at!).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</small></div><em className={a.urgency}>{a.urgency === 'soon' ? 'Due soon' : a.urgency === 'week' ? 'This week' : 'Later'}</em></li>)}</ul>}
           </article>
         </div>
 
         <div className="tc-row">
-          <article className="tc-card"><Head title="Recent Activity" action={<ViewAll on={!!more.a} set={tog('a')} />} />
-            {activity.length === 0 ? <p className="tc-empty">No activity yet.</p> : <ul className="tc-act">{activity.slice(0, more.a ? 20 : 4).map((a) => <li key={a.id}><span className={`tc-ico sm ${a.tone}`}><a.icon size={14} /></span><div><p>{a.text}</p><small>{new Date(a.date).toLocaleString()}</small></div></li>)}</ul>}
+          <article className="tc-card"><Head title="Recent Activity" action={<ViewAll on={!!more['a']} set={tog('a')} />} />
+            {activity.length === 0 ? <p className="tc-empty">No activity yet.</p> : <ul className="tc-act">{activity.slice(0, more['a'] ? 20 : 4).map((a) => <li key={a.id}><span className={`tc-ico sm ${a.tone}`}><a.icon size={14} /></span><div><p>{a.text}</p><small>{new Date(a.date).toLocaleString()}</small></div></li>)}</ul>}
           </article>
           <article className="tc-card" id="t-analytics"><Head title="Course Analytics" action={<span className="tc-pill">Last 7 days</span>} />
             <ul className="tc-keys"><li><i className="c1" />Submissions</li><li><i className="c2" />Graded</li><li><i className="c3" />Assignments Created</li></ul>
@@ -183,8 +183,8 @@ export function TeacherOverview({ d, save, busy }: { d: Data; save: Save; busy: 
 
       <aside className="tc-side">
         <article className="tc-card"><Head title="Quick Actions" /><div className="tc-quick">{([['create-class', 'Create Course', 'Add a new course', BookOpen, 'blue'], ['t-create', 'Create Lesson', 'Add lesson content', PlayCircle, 'red'], ['t-create', 'Create Quiz', 'Build assessments', FileQuestion, 'green'], ['classes', 'Manage Students', 'View & support learners', Users, 'purple'], ['t-create', 'Upload Resources', 'Add study materials', Upload, 'orange'], ['t-analytics', 'View Reports', 'Check performance', BarChart3, 'teal']] as const).map(([id, t, s, I, tone]) => <a key={t} href={`#${id}`} onClick={jump(id)}><span className={`tc-ico ${tone}`}><I size={18} /></span><div><b>{t}</b><small>{s}</small></div></a>)}</div></article>
-        <article className="tc-card" id="t-messages"><Head title="Recent Messages" action={<ViewAll on={!!more.m} set={tog('m')} />} />
-          <Messages d={d} save={save} busy={busy} name={studentName} all={!!more.m} />
+        <article className="tc-card" id="t-messages"><Head title="Recent Messages" action={<ViewAll on={!!more['m']} set={tog('m')} />} />
+          <Messages d={d} save={save} busy={busy} name={studentName} all={!!more['m']} />
         </article>
         <article className="tc-card" id="t-create"><Head title="Lessons, Quizzes & Resources" />
           <ContentBuilder d={d} save={save} busy={busy} />
