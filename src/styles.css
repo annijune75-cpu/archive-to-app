@@ -2141,3 +2141,5 @@ button.tc-link{background:none;border:0;cursor:pointer}
 .tc-link{white-space:nowrap;flex:0 0 auto}
 .tc-head{gap:8px}
 @media (min-width:900px){.tc-courses li{flex-wrap:nowrap}.tc-courses li .tc-menu{flex:0 0 auto}}
+@media (min-width:701px){.tc-courses li{grid-template-columns:40px minmax(120px,1.2fr) minmax(100px,1fr) auto auto auto}}
+.tc-head .tc-link{white-space:nowrap}
