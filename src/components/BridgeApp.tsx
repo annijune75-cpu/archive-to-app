@@ -1395,9 +1395,35 @@ export function BridgeHome() {
                 </div>
               )}
 
-              <form onSubmit={onAuthSubmit}>
+              {isSignupWizard && (
+                <ol className="bl-steps" aria-label="Sign-up progress">
+                  {["Personal Info", "Academic Info", "Account Setup", "Complete"].map((label, index) => {
+                    const n = index + 1;
+                    const current = signupDone ? 4 : signupStep;
+                    return (
+                      <li key={label} className={n < current ? "done" : n === current ? "active" : ""} aria-current={n === current ? "step" : undefined}>
+                        <span className="bl-step-dot">{n < current ? <CheckCircle2 size={14} /> : n}</span>
+                        <span>{label}</span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+
+              {isSignupWizard && signupDone ? (
+                <div className="bl-step-complete" data-testid="signup-complete">
+                  <CheckCircle2 size={44} />
+                  <h3>Account created</h3>
+                  <p>We sent a confirmation link to your email. Open it, then sign in to start learning. Add your student photo from Profile after you sign in.</p>
+                  <Button className="bridge-button primary" type="button" onClick={() => { setSignupDone(false); setSignupStep(1); setMode("login"); setAuthMessage(null); }}>
+                    Go to sign in <ArrowRight size={16} />
+                  </Button>
+                </div>
+              ) : (
+              <form ref={authFormRef} onSubmit={onAuthSubmit} noValidate={isSignupWizard}>
                 {mode === "signup" && !resetMode && !recoveryMode && (
                   <>
+                  <div data-step="1" hidden={signupStep !== 1}>
                     <label className="form-field">
                       Full name
                       <input
@@ -1409,8 +1435,10 @@ export function BridgeHome() {
                     </label>
 
                     <label className="form-field">Phone number<input name="phone" type="tel" autoComplete="tel" placeholder="+231 …" required /></label>
+                    <label className="form-field">Student photo<input name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" required /><small>JPG, PNG or WebP, up to 5 MB.</small></label>
+                  </div>
+                  <div data-step="2" hidden={signupStep !== 2}>
                     <label className="form-field">School you attend<input name="schoolName" autoComplete="organization" placeholder="Your school name" required /></label>
-                    <label className="form-field">Student photo<input name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" required /><small>JPG, PNG or WebP, up to 5 MB. Upload again from Profile after email confirmation.</small></label>
                     <label className="form-field">
                       Learning path
                       <select
@@ -1457,9 +1485,11 @@ export function BridgeHome() {
                         />
                       </label>
                     )}
+                  </div>
                   </>
                 )}
 
+                <div data-step="3" hidden={isSignupWizard && signupStep !== 3}>
                 {!recoveryMode && (
                   <label className="form-field">
                     Email address
@@ -1486,6 +1516,13 @@ export function BridgeHome() {
                     />
                   </label>
                 )}
+                {isSignupWizard && (
+                  <label className="form-field">
+                    Confirm password
+                    <input name="signupConfirm" type="password" autoComplete="new-password" minLength={8} placeholder="Enter the password again" required />
+                  </label>
+                )}
+                </div>
 
                 {recoveryMode && (
                   <>
@@ -1515,6 +1552,20 @@ export function BridgeHome() {
                   </>
                 )}
 
+                {isSignupWizard && signupStep < 3 ? (
+                  <div className="bl-step-actions">
+                    {signupStep > 1 && (
+                      <Button className="bridge-button" type="button" variant="outline" onClick={() => setSignupStep((s) => s - 1)}>Back</Button>
+                    )}
+                    <Button className="bridge-button primary button-full" type="button" onClick={goNextSignupStep}>
+                      Continue <ArrowRight size={16} />
+                    </Button>
+                  </div>
+                ) : (
+                <div className="bl-step-actions">
+                {isSignupWizard && (
+                  <Button className="bridge-button" type="button" variant="outline" onClick={() => setSignupStep(2)}>Back</Button>
+                )}
                 <Button className="bridge-button primary button-full" type="submit" disabled={busy}>
                   {busy
                     ? recoveryMode
@@ -1533,6 +1584,8 @@ export function BridgeHome() {
                           : "Sign in"}
                   <ArrowRight size={16} />
                 </Button>
+                </div>
+                )}
 
                 {mode === "login" && !resetMode && !recoveryMode && (
                   <button
