@@ -1519,7 +1519,7 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .bl-hero-brand img { width: clamp(48px, 9vw, 72px); height: auto; }
 .bl-hero-sub { font-size: clamp(1.7rem, 5vw, 3rem); font-weight: 800; line-height: 1.1; }
 .bl-btn-red { border-radius: 999px; }
-.bl-hero .bl-btn-ghost { border-radius: 999px; }
+.bl-hero .bl-btn-ghost { border-radius: 999px; background: rgba(255,255,255,.08); color: #fff; border: 1.5px solid rgba(255,255,255,.75); }
 .bl-benefit-icon { display: inline-flex; }
 .bl-benefit-icon.blue { color: var(--bl-blue); }
 .bl-benefit-icon.purple { color: #7c3aed; }
