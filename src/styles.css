@@ -1983,3 +1983,16 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .bl-cert-location { color: var(--bl-blue); font-size: .75rem; }
 .bl-cert-disclaimer { font-size: .75rem; color: var(--bl-muted); margin-top: 16px; }
 @media print { body * { visibility: hidden; } .bl-issued-certificate, .bl-issued-certificate * { visibility: visible; } .bl-issued-certificate { position: absolute; left: 0; top: 0; width: 100%; margin: 0; print-color-adjust: exact; } }
+
+/* Sign-up wizard */
+.bl-steps{display:flex;gap:.5rem;list-style:none;padding:0;margin:0 0 1.25rem;counter-reset:s}
+.bl-steps li{flex:1;display:flex;flex-direction:column;align-items:center;gap:.35rem;font-size:.75rem;color:var(--muted-foreground);text-align:center;position:relative}
+.bl-steps li:not(:last-child)::after{content:"";position:absolute;top:14px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:var(--border)}
+.bl-steps li.done::after{background:var(--primary)}
+.bl-step-dot{width:28px;height:28px;border-radius:999px;display:grid;place-items:center;border:2px solid var(--border);background:var(--background);font-weight:700}
+.bl-steps li.active{color:var(--foreground);font-weight:600}
+.bl-steps li.active .bl-step-dot,.bl-steps li.done .bl-step-dot{border-color:var(--primary);background:var(--primary);color:var(--primary-foreground)}
+.bl-step-actions{display:flex;gap:.75rem;align-items:center}
+.bl-step-complete{text-align:center;display:grid;justify-items:center;gap:.75rem;padding:1rem 0;color:var(--foreground)}
+.bl-step-complete svg{color:var(--primary)}
+[data-step][hidden]{display:none!important}

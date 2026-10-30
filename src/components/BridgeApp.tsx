@@ -18,6 +18,7 @@ import {
   UsersRound,
   X,
   PlayCircle,
+  CheckCircle2,
   Timer,
   TrendingUp,
   FileText,
