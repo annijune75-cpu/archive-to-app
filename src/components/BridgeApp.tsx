@@ -314,6 +314,9 @@ export function BridgeHome() {
   const [user, setUser] = useState<User | null>(null);
   const [restoring, setRestoring] = useState(true);
   const [mode, setMode] = useState<AuthMode>("signup");
+  const [signupStep, setSignupStep] = useState(1);
+  const [signupDone, setSignupDone] = useState(false);
+  const authFormRef = useRef<HTMLFormElement>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [resetMode, setResetMode] = useState(false);
   const [recoveryMode, setRecoveryMode] = useState(false);
@@ -1621,6 +1624,7 @@ export function BridgeHome() {
                   </p>
                 )}
               </form>
+              )}
 
               <p className="auth-note">
                 Teacher and school access use a separate verification process. This learner form
