@@ -6,7 +6,6 @@ import {
   FileText,
   GraduationCap,
   NotebookPen,
-  PlayCircle,
   UsersRound,
 } from "lucide-react";
 import type { ReactNode } from "react";
