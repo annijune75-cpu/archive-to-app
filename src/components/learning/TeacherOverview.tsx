@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { ArrowRight, Atom, BarChart3, BookOpen, Calculator, CheckCircle2, ClipboardCheck, ClipboardList, Download, FileText, FlaskConical, GraduationCap, House, Leaf, LogOut, MessageSquare, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react';
+import { ArrowRight, Atom, BarChart3, BookOpen, Calculator, CheckCircle2, ClipboardCheck, ClipboardList, Download, FileText, FlaskConical, GraduationCap, House, Leaf, LogOut, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react';
 import { teacherOverview, greeting } from '@/lib/teacher-overview';
 import type { workspaceData } from '@/lib/learning.functions';
 import { supabase } from '@/lib/supabase';
@@ -103,6 +103,5 @@ export function TeacherOverview({ d }: { d: Data }) {
         <article className="tc-support"><img src={supportPhoto} alt="Teacher helping students with their work" width={784} height={848} loading="lazy" /><div><h3>Great Teachers<br />Build Great<br />Futures</h3><Link to="/downloads" className="bl-btn bl-btn-red bl-btn-sm">View Support Resources <ArrowRight size={14} /></Link></div></article>
       </aside>
     </div>
-    <span hidden><MessageSquare /></span>
   </section>;
 }
