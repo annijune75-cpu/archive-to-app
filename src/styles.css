@@ -2018,3 +2018,4 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .bl-t-bar{display:grid;grid-template-columns:minmax(90px,180px) 1fr 48px;gap:.75rem;align-items:center;font-size:.9rem}
 .bl-t-bar div{height:10px;background:var(--muted);border-radius:999px;overflow:hidden}
 .bl-t-bar i{display:block;height:100%;background:var(--primary)}
+.bl-teacher .bl-card{padding:1.25rem}
