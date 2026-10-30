@@ -16,6 +16,11 @@ describe('teacherOverview', () => {
     expect(o.students).toBe(2);
     expect(o.classStats[0]?.average).toBe(75);
   });
+  it('ranks students by graded average and computes submission rate', () => {
+    const o = teacherOverview({ classes, memberships, assignments, submissions: [{ assignment_id: 'a1', student_id: 's1', score: 10, created_at: '2026-01-01' }, { assignment_id: 'a1', student_id: 's2', score: 18, created_at: '2026-01-01' }] });
+    expect(o.topStudents.map((s) => s.student_id)).toEqual(['s2', 's1']);
+    expect(o.classStats[0]?.submissionRate).toBe(100);
+  });
   it('reports no average when nothing is graded', () => {
     const o = teacherOverview({ classes, memberships, assignments, submissions: [] });
     expect(o.classStats[0]?.average).toBeNull();
