@@ -15,14 +15,14 @@ const jump = (id: string) => (e: React.MouseEvent) => { const el = document.getE
 
 function useTeacherProfile() {
   const [name, setName] = useState('Teacher'); const [photo, setPhoto] = useState(''); const [err, setErr] = useState('');
-  useEffect(() => { let live = true; void supabase.auth.getUser().then(async ({ data }) => { if (!data.user) return; const p = await supabase.from('profiles').select('full_name').eq('id', data.user.id).maybeSingle(); if (!live) return; setName(p.data?.full_name || data.user.user_metadata['full_name'] || 'Teacher'); const path = data.user.user_metadata['student_photo_path']; if (typeof path === 'string' && path.startsWith(`${data.user.id}/`)) { const u = await supabase.storage.from('student-photos').createSignedUrl(path, 3600); if (live && u.data) setPhoto(u.data.signedUrl); } }); return () => { live = false; }; }, []);
+  useEffect(() => { let live = true; void supabase.auth.getUser().then(async ({ data }) => { if (!data.user) return; const p = await supabase.from('profiles').select('full_name').eq('id', data.user.id).maybeSingle(); if (!live) return; setName(p.data?.full_name || data.user.user_metadata['full_name'] || 'Teacher'); const path = data.user.user_metadata['student_photo_path']; if (typeof path === 'string' && path.startsWith(`${data.user.id}/`)) { const u = await supabase.storage.from('student-photos').createSignedUrl(path, 3600); if (live && u.data) setPhoto(u.data.signedUrl); } }); const on = (e: Event) => setPhoto((e as CustomEvent<string>).detail); window.addEventListener('tc-photo', on); return () => { live = false; window.removeEventListener('tc-photo', on); }; }, []);
   async function upload(file: File) {
     setErr(''); if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) { setErr('Use a JPG, PNG or WebP photo under 5 MB.'); return; }
     const { data } = await supabase.auth.getUser(); if (!data.user) return;
     const path = `${data.user.id}/profile.${file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'}`;
     const up = await supabase.storage.from('student-photos').upload(path, file, { upsert: true }); if (up.error) { setErr('Photo could not be uploaded.'); return; }
     await supabase.auth.updateUser({ data: { student_photo_path: path } });
-    const u = await supabase.storage.from('student-photos').createSignedUrl(path, 3600); if (u.data) setPhoto(u.data.signedUrl);
+    const u = await supabase.storage.from('student-photos').createSignedUrl(path, 3600); if (u.data) { setPhoto(u.data.signedUrl); window.dispatchEvent(new CustomEvent('tc-photo', { detail: u.data.signedUrl })); }
   }
   return { name, photo, upload, err };
 }
@@ -122,7 +122,7 @@ function ViewAll({ on, set, label = 'View All' }: { on: boolean; set: (v: boolea
 }
 
 function CourseMenu({ id, save, label }: { id: string; save: Save; label: React.ReactNode }) {
-  return <details className="tc-menu"><summary className={label ? 'tc-out' : 'tc-kebab'} aria-label={label ? undefined : 'More options'}>{label ?? <MoreVertical size={16} />}</summary><div>
+  return <details className="tc-menu"><summary className={label ? 'tc-out' : 'tc-kebab'} aria-label={label ? undefined : 'More options'}>{label ?? <MoreVertical size={16} />}</summary><div onClick={(e) => { (e.currentTarget.parentElement as HTMLDetailsElement).open = false; }}>
     <a href="#classes" onClick={jump('classes')}>View students & assignments</a>
     <button type="button" onClick={() => void save({ kind: 'invite', class_id: id, days: 7, max_uses: 100 }, 'Invitation created.')}>Create invitation code</button>
     <a href="#t-create" onClick={jump('t-create')}>Add lesson, quiz or resource</a>
