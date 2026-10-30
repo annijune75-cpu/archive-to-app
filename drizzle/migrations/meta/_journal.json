@@ -29,6 +29,13 @@
       "when": 1793367720403,
       "tag": "0003_class_resource_files",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793368242998,
+      "tag": "0004_student_photos_owner_delete",
+      "breakpoints": true
     }
   ]
 }
