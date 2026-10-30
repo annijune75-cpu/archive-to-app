@@ -14,7 +14,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-const URL = "https://qlwtccmvddhgdnknrgnh.supabase.co";
+const URL = process.env.VITE_SUPABASE_URL ?? "";
 const KEY = "sb_publishable_wKuleQ5jc2evn7g6qt7Qhw_S8UKrWOg";
 const env = process.env;
 const student = { email: env["E2E_STUDENT_EMAIL"], password: env["E2E_STUDENT_PASSWORD"] };

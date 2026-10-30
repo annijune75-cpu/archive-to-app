@@ -9,9 +9,9 @@ export default defineMcp({
   title: "BridgeLIB",
   version: "0.1.0",
   instructions: "Tools for BridgeLIB learners: browse subjects and lessons, check your progress, and mark lessons complete. All actions run as the signed-in user.",
-  // Tokens come from the original BridgeLIB account service, not the editor-bound Cloud project.
+  // Tokens come from the Lovable Cloud auth issuer.
   auth: auth.oauth.issuer({
-    issuer: "https://qlwtccmvddhgdnknrgnh.supabase.co/auth/v1",
+    issuer: "https://ihsmpxbglowipngkbuak.supabase.co/auth/v1",
     acceptedAudiences: "authenticated",
   }),
   tools: [listSubjects, listLessons, myProgress, completeLesson],
