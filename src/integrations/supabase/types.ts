@@ -308,6 +308,7 @@ export type Database = {
           class_id: string
           created_at: string
           created_by: string
+          file_path: string | null
           id: string
           kind: string
           link_url: string | null
@@ -319,6 +320,7 @@ export type Database = {
           class_id: string
           created_at?: string
           created_by?: string
+          file_path?: string | null
           id?: string
           kind: string
           link_url?: string | null
@@ -330,6 +332,7 @@ export type Database = {
           class_id?: string
           created_at?: string
           created_by?: string
+          file_path?: string | null
           id?: string
           kind?: string
           link_url?: string | null
@@ -1285,6 +1288,7 @@ export type Database = {
         Returns: undefined
       }
       submit_exam_attempt: { Args: { p_answers: Json }; Returns: Json }
+      try_uuid: { Args: { t: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never

@@ -2122,3 +2122,17 @@ body { background: var(--bl-bg); color: var(--bl-text); font-family: "Plus Jakar
 .tc-opt input[type=radio]{width:16px;height:16px;flex:0 0 16px;padding:0;min-height:0}
 .tc-opt input:not([type=radio]){flex:1;min-width:0}
 .tc-courses li .tc-kebab{flex:0 0 auto}
+.tc-photo{border-radius:50%;object-fit:cover;display:inline-flex;align-items:center;justify-content:center;background:var(--muted);color:var(--muted-foreground);flex:0 0 auto}
+.tc-photo-pick{position:relative;cursor:pointer;display:inline-flex}
+.tc-photo-pick i{position:absolute;right:-2px;bottom:-2px;background:var(--primary);color:var(--primary-foreground);border-radius:50%;padding:3px;display:flex}
+.tc-bell{position:relative}
+.tc-bell-dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--bl-red)}
+.tc-menu{position:relative}
+.tc-menu summary{list-style:none;cursor:pointer}
+.tc-menu summary::-webkit-details-marker{display:none}
+.tc-menu>div{position:absolute;right:0;top:calc(100% + 4px);z-index:20;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 24px rgb(0 0 0/.12);padding:6px;display:grid}
+.tc-menu>div a,.tc-menu>div button{text-align:left;padding:8px 10px;border-radius:6px;font-size:13px;background:none;border:0;color:var(--foreground)}
+.tc-menu>div a:hover,.tc-menu>div button:hover{background:var(--muted)}
+.tc-linkbtn{background:none;border:0;padding:0;color:var(--primary);font-weight:600;font-size:inherit;cursor:pointer}
+button.tc-link{background:none;border:0;cursor:pointer}
+.tc-err{color:var(--destructive);font-size:13px}

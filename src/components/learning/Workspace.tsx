@@ -7,10 +7,10 @@ import { workspaceData, learningAction, teacherAction } from '@/lib/learning.fun
 import { supabase } from '@/lib/supabase';
 import { SiteHeader, EmptyState } from '@/components/site/SiteChrome';
 import { Button } from '@/components/ui/button';
-import { TeacherOverview, TeacherSidebar } from './TeacherOverview';
+import { TeacherHeaderActions, TeacherOverview, TeacherSidebar } from './TeacherOverview';
 
-function TeacherShell({ children }: { children: ReactNode }) {
-  return <div className="bl-site bl-sd-site"><SiteHeader /><div className="bl-sd-layout"><TeacherSidebar /><main className="bl-sd-main tc-main-wrap">{children}</main></div></div>;
+function TeacherShell({ children, d }: { children: ReactNode; d?: Parameters<typeof TeacherHeaderActions>[0]['d'] | undefined }) {
+  return <div className="bl-site bl-sd-site"><SiteHeader actions={<TeacherHeaderActions d={d} />} /><div className="bl-sd-layout"><TeacherSidebar /><main className="bl-sd-main tc-main-wrap">{children}</main></div></div>;
 }
 
 export function WorkspaceShell({ children }: { children: ReactNode }) {
@@ -27,7 +27,7 @@ export function LearningWorkspace({ teacher = false }: { teacher?: boolean }) {
   async function run(fn: () => Promise<any>, success = 'Saved.') { setBusy(true);setMessage('');try { const result = await fn();setMessage(result?.code ? `Invitation code: ${result.code}` : success);await query.refetch(); } catch(e) {setMessage(e instanceof Error ? e.message : 'Could not save.');} finally {setBusy(false);} }
   function form(e: FormEvent<HTMLFormElement>) { e.preventDefault();return new FormData(e.currentTarget); }
   const Shell = teacher && canTeach ? TeacherShell : WorkspaceShell;
-  return <Shell>{!(teacher && canTeach) && <h1 className="bl-page-title">{teacher ? 'Classes & assignments' : 'My learning'}</h1>}{message && <p className="bl-notice" role="status">{message}</p>}{query.isPending ? <p>Loading your workspace…</p> : query.error ? <EmptyState title="Sign in to continue" text="Your learning workspace requires an active account." action={<a className="bl-btn bl-btn-primary" href="/?auth=login">Sign in</a>} /> : d && <>
+  return <Shell d={d}>{!(teacher && canTeach) && <h1 className="bl-page-title">{teacher ? 'Classes & assignments' : 'My learning'}</h1>}{message && <p className="bl-notice" role="status">{message}</p>}{query.isPending ? <p>Loading your workspace…</p> : query.error ? <EmptyState title="Sign in to continue" text="Your learning workspace requires an active account." action={<a className="bl-btn bl-btn-primary" href="/?auth=login">Sign in</a>} /> : d && <>
     {teacher && canTeach && <TeacherOverview d={d} busy={busy} save={(data, ok) => run(() => teach({ data }), ok)} />}
     {!(teacher && canTeach) && <div className="bl-grid-4 bl-mt">{[['Enrolled courses',d.enrollments.length],['Completed lessons',d.completions.length],['Practice attempts',d.attempts.length],['My classes',d.classes.length]].map(([label,count]) => <article className="bl-card bl-stat" key={label}><small>{label}</small><b>{count}</b></article>)}</div>}
     {!teacher && <><h2 className="bl-h2 bl-mt-lg">My courses</h2><div className="bl-grid-3">{d.enrollments.map(e => <Link key={e.id} to="/courses/$subjectId" params={{subjectId:String(e.subject_id)}} className="bl-card bl-course"><h3>{d.subjects.find(s => s.id===e.subject_id)?.name ?? 'Course'}</h3><span className="bl-link">Continue learning</span></Link>)}</div>{d.enrollments.length===0 && <EmptyState title="No courses enrolled yet" text="Choose a subject to start learning." action={<Link to="/courses" className="bl-btn bl-btn-primary">Browse courses</Link>} />}<h2 className="bl-h2 bl-mt-lg">Recent practice</h2><div className="bl-table-wrap"><table className="bl-table"><thead><tr><th>Date</th><th>Score</th><th>Percentage</th></tr></thead><tbody>{d.attempts.map(a => <tr key={a.id}><td>{new Date(a.submitted_at).toLocaleDateString()}</td><td>{a.score} / {a.total_questions}</td><td>{Math.round(a.score/a.total_questions*100)}%</td></tr>)}</tbody></table></div>{d.attempts.length===0 && <p className="bl-muted">No saved attempts yet.</p>}</>}
