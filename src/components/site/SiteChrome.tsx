@@ -229,7 +229,6 @@ export function SiteFooter() {
           <Link to="/practice">Past Questions</Link>
           <Link to="/courses">Study Notes</Link>
           <Link to="/practice">Mock Tests</Link>
-          <Link to="/courses">Video Lessons</Link>
           <Link to="/certificates">Certificates</Link>
         </div>
         <div>

@@ -110,7 +110,7 @@ function CoursesPage() {
           </nav>
           <h1>Our Courses</h1>
           <p className="bl-page-hero-lead">Choose from a wide range of subjects and start learning today.</p>
-          <p>Access high-quality courses, past questions, video lessons, quizzes, and study materials designed for Liberian students.</p>
+          <p>Access high-quality courses, past questions, quizzes, and study materials designed for Liberian students.</p>
         </div>
       </section>
 

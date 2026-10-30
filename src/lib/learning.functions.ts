@@ -57,7 +57,7 @@ export const teacherAction = createServerFn({ method: 'POST' }).middleware([requ
 
 export const adminData = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).handler(async ({ context: { supabase, userId } }) => {
   const role = await supabase.rpc('has_role', { _user_id: userId, _role: 'admin' }); if (role.error || !role.data) throw new Error('Administrator access required.');
-  const tables = ['profiles','user_roles','schools','classes','exam_papers','scholarships','subscription_plans','school_invoices','school_payment_transactions','premium_payment_transactions','feature_settings'] as const;
+  const tables = ['profiles','user_roles','schools','classes','exam_papers','scholarships','feature_settings'] as const;
   const results = await Promise.all(tables.map(table => supabase.from(table).select('*').limit(1000)));
   for (const r of results) if (r.error) throw new Error(r.error.message);
   return Object.fromEntries(tables.map((table,i) => [table, results[i]?.data ?? []])) as Record<string, Array<Record<string, any>>>;
