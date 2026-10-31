@@ -400,6 +400,39 @@ export type Database = {
           },
         ]
       }
+      class_lesson_completions: {
+        Row: {
+          content_id: string
+          created_at: string
+          student_id: string
+        }
+        Insert: {
+          content_id: string
+          created_at?: string
+          student_id: string
+        }
+        Update: {
+          content_id?: string
+          created_at?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_lesson_completions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "class_content"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_lesson_completions_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_memberships: {
         Row: {
           class_id: string
@@ -433,6 +466,36 @@ export type Database = {
           {
             foreignKeyName: "class_memberships_student_id_fkey"
             columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_message_reads: {
+        Row: {
+          message_id: string
+          user_id: string
+        }
+        Insert: {
+          message_id: string
+          user_id: string
+        }
+        Update: {
+          message_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_message_reads_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "class_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_message_reads_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -473,6 +536,74 @@ export type Database = {
             columns: ["class_id"]
             isOneToOne: false
             referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_quiz_attempts: {
+        Row: {
+          answers: Json
+          content_id: string
+          id: string
+          score: number
+          student_id: string
+          submitted_at: string
+          total_questions: number
+        }
+        Insert: {
+          answers: Json
+          content_id: string
+          id?: string
+          score: number
+          student_id: string
+          submitted_at?: string
+          total_questions: number
+        }
+        Update: {
+          answers?: Json
+          content_id?: string
+          id?: string
+          score?: number
+          student_id?: string
+          submitted_at?: string
+          total_questions?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_quiz_attempts_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "class_content"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_quiz_attempts_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_quiz_keys: {
+        Row: {
+          answers: Json
+          content_id: string
+        }
+        Insert: {
+          answers: Json
+          content_id: string
+        }
+        Update: {
+          answers?: Json
+          content_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_quiz_keys_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: true
+            referencedRelation: "class_content"
             referencedColumns: ["id"]
           },
         ]
@@ -1286,6 +1417,10 @@ export type Database = {
       set_user_role: {
         Args: { p_role: string; p_user_id: string }
         Returns: undefined
+      }
+      submit_class_quiz: {
+        Args: { p_answers: Json; p_content: string }
+        Returns: Json
       }
       submit_exam_attempt: { Args: { p_answers: Json }; Returns: Json }
       try_uuid: { Args: { t: string }; Returns: string }
