@@ -1,14 +1,14 @@
 # BridgeLIB completion
 
 ## Design pages
-- [ ] Match student dashboard reference and connect class lessons, resources, saved quizzes and teacher messages; verify desktop/phone with temporary accounts and clean up.
+- [x] Match student dashboard reference using original photos/colors; real class lessons, resources, server-graded saved quizzes and teacher messages verified on desktop/phone with temporary accounts; privacy tests passed and all test accounts/data/files removed.
 - [x] Match home page to the supplied reference; original photos, five honest course slots, desktop/phone layouts and navigation controls verified.
 - [x] Four-step student sign-up (Personal, Academic, Account, Complete) creating real accounts.
 - [x] Teacher dashboard from design using real classes, progress, assignments and analytics with empty states.
 
 ## Lovable Cloud migration
 - [x] Move code, database structure, roles and file storage to Lovable Cloud.
-- [ ] Import existing records and users: waiting on CSV/JSON exports from the old backend.
+- [ ] Import existing records and users: intentionally skipped at the owner’s request.
 - [ ] Make the first administrator account: waiting on the owner signing up.
 - [ ] Verify signed-in student/teacher/admin flows: needs a confirmed test account.
 

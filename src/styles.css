@@ -2305,3 +2305,40 @@ button.tc-link{background:none;border:0;cursor:pointer}
 }
 .bl-home-reference .bl-btn.bl-btn-red { background: var(--bl-home-red); color: var(--bl-on-dark); border-color: transparent; }
 .bl-home-reference .bl-header-actions .bl-btn-primary { background: var(--bl-surface); color: var(--bl-home-blue); }
+
+/* Owner's student dashboard reference, scoped to leave teacher and home unchanged. */
+.bl-student-reference { --bl-navy:#03254e; --bl-navy-2:#063773; --bl-blue:#0065ff; --bl-green:#00af76; --bl-red:#ff1740; --bl-soft:#f3f8ff; --bl-track:#e0ecff; --bl-shadow:0 2px 8px #0065ff0b; letter-spacing:0; }
+.bl-student-reference .bl-header-inner { min-height:58px; }
+.bl-student-reference .bl-sd-layout { grid-template-columns:225px minmax(0,1fr);gap:14px;padding:4px 16px; }
+.bl-student-reference .bl-sd-main {padding-top:8px;}
+.bl-student-reference .bl-sd-welcome {height:190px;background:var(--bl-navy-2);}
+.bl-student-reference .bl-sd-welcome>img {position:absolute;right:0;width:63%;object-position:center;}
+.bl-student-reference .bl-sd-welcome::after {background:linear-gradient(90deg,var(--bl-navy-2) 33%,transparent 65%);}
+.bl-student-reference .bl-sd-welcome-copy {left:24px;max-width:52%;}
+.bl-student-reference .bl-sd-dream {display:none;}
+.bl-student-reference .bl-sd-facts {gap:10px;}
+.bl-student-reference .bl-sd-facts>span {padding:8px 10px;}
+.bl-student-reference .bl-sd-columns {grid-template-columns:minmax(0,1fr) 260px;}
+.bl-student-reference .bl-sd-stat {min-height:108px;}
+.bl-student-reference .bl-sd-course {min-height:174px;grid-template-columns:76px minmax(0,1fr);}
+.bl-student-reference .bl-sd-course>img {height:76px;}
+.bl-student-reference .bl-sd-course-head {flex-wrap:wrap;}
+.bl-student-reference .bl-sd-course .bl-btn {margin-top:18px;}
+.bl-student-reference .bl-sd-section {box-shadow:var(--bl-shadow);}
+.bl-student-reference .bl-sd-education {min-height:195px;}
+.bl-student-reference .bl-sd-education::after {background:linear-gradient(180deg,transparent,var(--bl-navy));}
+.bl-student-reference .bl-sd-education>img {object-position:top;}
+.bl-student-reference .bl-sd-layout>.bl-pt-side {padding:20px 12px;}
+.bl-student-reference .bl-student-verification {display:block;font-size:.6rem;width:max-content;margin:0 0 12px 48px;padding:3px 6px;background:var(--bl-blue);color:var(--bl-on-dark);border:0;}
+.bl-pt-avatar img {width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.sc-profile-photo {width:34px;height:34px;object-fit:cover;border-radius:50%;}
+.sc-bell {position:relative;}.sc-unread {position:absolute;right:-2px;top:0;background:var(--bl-red);color:var(--bl-on-dark);border-radius:50%;font-size:9px;min-width:14px;min-height:14px;display:grid;place-items:center;}
+.sc-learning {margin:20px 0 30px;}.sc-tabs {display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}.sc-class-select {display:grid;gap:8px;margin-top:18px;max-width:350px;color:var(--bl-navy);}.sc-class-select select {padding:10px;border:1px solid var(--bl-border);border-radius:6px;background:var(--bl-surface);}
+.sc-content-list {display:grid;}.sc-content {display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--bl-border);}.sc-content>div {flex:1;min-width:0;}.sc-content h2 {font-size:1rem;font-weight:700;color:var(--bl-navy);overflow-wrap:anywhere;}.sc-content p,.sc-message small {font-size:.8rem;color:var(--bl-muted);}.sc-messages {display:grid;margin:16px 0;}.sc-message {padding:16px 0;border-bottom:1px solid var(--bl-border);}.sc-message p {margin:8px 0;overflow-wrap:anywhere;}.sc-message .bl-btn {margin-left:12px;}
+.sc-reader {max-height:85dvh;overflow-y:auto;}.sc-question {padding:16px 0;border-bottom:1px solid var(--bl-border);margin-bottom:12px;}.sc-question legend {font-weight:700;color:var(--bl-navy);}.sc-question label {display:flex;align-items:flex-start;gap:10px;padding:10px 0;}.sc-question input[type=radio] {width:16px;height:16px;min-height:16px;flex:none;margin-top:3px;}.sc-question span {overflow-wrap:anywhere;}
+@media(max-width:1100px) and (min-width:961px){.bl-student-reference .bl-sd-layout{grid-template-columns:190px minmax(0,1fr);}.bl-student-reference .bl-sd-columns{grid-template-columns:minmax(0,1fr) 235px;}.bl-student-reference .bl-sd-stat{flex-direction:column;}.bl-student-reference .bl-sd-course{grid-template-columns:55px minmax(0,1fr);}.bl-student-reference .bl-sd-course>img{width:55px;height:66px;}}
+@media(max-width:960px){.bl-student-reference .bl-sd-layout{grid-template-columns:minmax(0,1fr);padding:8px 12px;}.bl-student-reference .bl-sd-layout>.bl-pt-side{padding:8px;}.bl-student-reference .bl-student-verification{display:none;}.bl-student-reference .bl-sd-welcome-copy{max-width:65%;}}
+@media(max-width:700px){.bl-student-reference .bl-sd-columns{grid-template-columns:minmax(0,1fr);}.bl-student-reference .bl-sd-welcome{height:224px;}.bl-student-reference .bl-sd-welcome-copy{left:16px;max-width:calc(100% - 32px);}.bl-student-reference .bl-sd-welcome>img{width:100%;opacity:.42;}.bl-student-reference .bl-sd-welcome::after{background:linear-gradient(90deg,var(--bl-navy-2),transparent);}.bl-student-reference .bl-sd-welcome h1{font-size:1.2rem;}.bl-student-reference .bl-sd-facts{gap:6px;}.bl-student-reference .bl-sd-facts>span{padding:8px 6px;}.bl-student-reference .bl-sd-facts svg{width:22px;height:22px;}.bl-student-reference .bl-sd-stat{min-height:116px;}.sc-content{align-items:flex-start;flex-direction:column;}.sc-tabs .bl-btn{flex:1;min-width:120px;}}
+
+.bl-student-reference .bl-logo-mark>img:first-child {display:none;}.bl-student-reference .bl-logo-mark .bl-home-logo-mark {display:block !important;width:38px;height:38px;object-fit:contain;}
+.bl-student-reference .sc-exact-education {display:block;aspect-ratio:246/185;min-height:0;}.bl-student-reference .sc-exact-education>img {position:static;width:100%;height:100%;object-fit:fill;}.bl-student-reference .sc-exact-education::after {display:none;}

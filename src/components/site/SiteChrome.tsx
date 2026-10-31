@@ -173,7 +173,7 @@ export function SiteHeader({ actions, student = false }: { actions?: ReactNode; 
           onClick={() => setSearchOpen((v) => !v)}>
           <Search size={18} />
         </Button>
-        {student && <div className="bl-student-actions"><Button className="bl-search-btn" aria-label="Notifications" aria-expanded={noticesOpen} onClick={()=>setNoticesOpen(v=>!v)}><Bell size={18}/></Button><Link to="/profile" className="bl-header-profile"><User size={22}/><span><strong>{studentName}</strong><small>Student</small></span></Link>{noticesOpen&&<div className="bl-notifications"><strong>Notifications</strong><Link to="/dashboard">View class assignments</Link><Link to="/progress">View saved practice results</Link></div>}</div>}
+        {student && (actions ?? <div className="bl-student-actions"><Button className="bl-search-btn" aria-label="Notifications" aria-expanded={noticesOpen} onClick={()=>setNoticesOpen(v=>!v)}><Bell size={18}/></Button><Link to="/profile" className="bl-header-profile"><User size={22}/><span><strong>{studentName}</strong><small>Student</small></span></Link>{noticesOpen&&<div className="bl-notifications"><strong>Notifications</strong><Link to="/dashboard">View class assignments</Link><Link to="/progress">View saved practice results</Link></div>}</div>)}
         {!student && <div className="bl-header-actions">{actions ?? defaultActions}</div>}
         <Button
           type="button"

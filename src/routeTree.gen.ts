@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as CertificatesRouteImport } from './routes/certificates'
+import { Route as ClassroomRouteImport } from './routes/classroom'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -66,6 +67,11 @@ const BookmarksRoute = BookmarksRouteImport.update({
 const CertificatesRoute = CertificatesRouteImport.update({
   id: '/certificates',
   path: '/certificates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClassroomRoute = ClassroomRouteImport.update({
+  id: '/classroom',
+  path: '/classroom',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/bookmarks': typeof BookmarksRoute
   '/certificates': typeof CertificatesRoute
+  '/classroom': typeof ClassroomRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/bookmarks': typeof BookmarksRoute
   '/certificates': typeof CertificatesRoute
+  '/classroom': typeof ClassroomRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
@@ -288,6 +296,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/bookmarks': typeof BookmarksRoute
   '/certificates': typeof CertificatesRoute
+  '/classroom': typeof ClassroomRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
@@ -325,6 +334,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bookmarks'
     | '/certificates'
+    | '/classroom'
     | '/contact'
     | '/courses'
     | '/dashboard'
@@ -360,6 +370,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bookmarks'
     | '/certificates'
+    | '/classroom'
     | '/contact'
     | '/courses'
     | '/dashboard'
@@ -395,6 +406,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bookmarks'
     | '/certificates'
+    | '/classroom'
     | '/contact'
     | '/courses'
     | '/dashboard'
@@ -431,6 +443,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   BookmarksRoute: typeof BookmarksRoute
   CertificatesRoute: typeof CertificatesRoute
+  ClassroomRoute: typeof ClassroomRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
   DashboardRoute: typeof DashboardRoute
@@ -496,6 +509,13 @@ declare module '@tanstack/react-router' {
       path: '/certificates'
       fullPath: '/certificates'
       preLoaderRoute: typeof CertificatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/classroom': {
+      id: '/classroom'
+      path: '/classroom'
+      fullPath: '/classroom'
+      preLoaderRoute: typeof ClassroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -703,6 +723,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   BookmarksRoute: BookmarksRoute,
   CertificatesRoute: CertificatesRoute,
+  ClassroomRoute: ClassroomRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
   DashboardRoute: DashboardRoute,
