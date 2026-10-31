@@ -52,10 +52,10 @@ import heroImg from "@/assets/hero-student.jpg";
 import { PracticeView } from "@/components/practice/PracticeView";
 import { useQueryClient } from "@tanstack/react-query";
 import sunsetImg from "@/assets/liberia-sunset.jpg";
-import homeReferencePhoto from '@/assets/home-reference-photo.png.asset.json';
-import homeReferenceWassce from '@/assets/home-reference-wassce.png.asset.json';
-import homeReferenceJoin from '@/assets/home-reference-join.png.asset.json';
-import homeReferenceLogo from '@/assets/home-reference-logo.png.asset.json';
+import homeReferencePhoto from '@/assets/home-exact-photo.png.asset.json';
+import homeReferenceWassce from '@/assets/home-exact-wassce.png.asset.json';
+import homeReferenceJoin from '@/assets/home-exact-join.png.asset.json';
+import homeReferenceLogo from '@/assets/home-exact-logo.png.asset.json';
 import wassceImg from '@/assets/wassce-hero.jpg';
 import joinImg from '@/assets/hero-student.jpg';
 import shieldImg from '@/assets/bridgelib-shield.png';
@@ -1230,7 +1230,7 @@ export function BridgeHome() {
               goals with ease.
             </p>
             <div className="bl-hero-actions">
-              <Button className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
+              <Button variant="ghost" className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
                 Get Started Free <ArrowRight size={18} />
               </Button>
               <Button variant="outline" type="button" className="bl-btn bl-btn-ghost" onClick={() => setVideoOpen(true)}>
@@ -1342,7 +1342,7 @@ export function BridgeHome() {
                   </div>
                 ))}
               </div>
-              <Button className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
+              <Button variant="ghost" className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
                 Get Started Free <ArrowRight size={18} />
               </Button>
             </div>

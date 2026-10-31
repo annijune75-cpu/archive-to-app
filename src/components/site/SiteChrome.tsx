@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import shieldImg from "@/assets/bridgelib-shield.png";
-import homeLogo from "@/assets/home-reference-logo.png.asset.json";
+import homeLogo from "@/assets/home-exact-logo.png.asset.json";
 import { safeUrl, useSiteContent, type SiteContent } from "@/lib/site-content";
 import { Button } from "@/components/ui/button";
 
