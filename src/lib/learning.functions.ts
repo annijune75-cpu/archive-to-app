@@ -4,6 +4,7 @@ import { z } from "zod";
 import { requireBridgeAuth as requireSupabaseAuth } from "./bridge-auth";
 import { BRIDGE_SUPABASE_URL, BRIDGE_PUBLISHABLE_KEY } from './supabase';
 import { assignmentSchema, classSchema, gradeSchema, roleSchema, submissionSchema } from "./learning-schema";
+import { classQuestionSchema } from './student-class';
 
 export const publicCatalogue = createServerFn({ method: "GET" }).handler(async () => {
   const url = BRIDGE_SUPABASE_URL; const key = BRIDGE_PUBLISHABLE_KEY;
@@ -23,11 +24,12 @@ export const workspaceData = createServerFn({ method: "POST" }).middleware([requ
     supabase.from('lesson_completions').select('*'), supabase.from('exam_attempts').select('*').eq('user_id', userId).order('submitted_at', { ascending: false }).limit(100),
     supabase.from('feature_settings').select('*'), supabase.from('class_invites').select('id,class_id,expires_at,max_uses,use_count,revoked_at'),
     supabase.from('class_messages').select('*').order('created_at', { ascending: false }).limit(50), supabase.from('class_content').select('*').order('created_at', { ascending: false }),
+    supabase.from('class_quiz_attempts').select('*').eq('student_id',userId).order('submitted_at',{ascending:false}), supabase.from('class_lesson_completions').select('*').eq('student_id',userId), supabase.from('class_message_reads').select('message_id').eq('user_id',userId),
   ]);
   const failure = results.find(r => r.error); if (failure?.error) throw new Error(failure.error.message);
   const memberIds = [...new Set(((results[4]?.data ?? []) as Array<{ student_id: string }>).map(m => m.student_id).filter(id => id !== userId))];
   const people = memberIds.length ? await supabase.from('profiles').select('id,full_name').in('id', memberIds) : { data: [], error: null };
-  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [], students: (people.data ?? []) as Array<{ id: string; full_name: string | null }>, messages: results[12]?.data ?? [], content: results[13]?.data ?? [] };
+  return { userId, profile: results[0]?.data, roles: results[1]?.data ?? [], subjects: results[2]?.data ?? [], classes: results[3]?.data ?? [], memberships: results[4]?.data ?? [], assignments: results[5]?.data ?? [], submissions: results[6]?.data ?? [], enrollments: results[7]?.data ?? [], completions: results[8]?.data ?? [], attempts: results[9]?.data ?? [], features: results[10]?.data ?? [], invites: results[11]?.data ?? [], students: (people.data ?? []) as Array<{ id: string; full_name: string | null }>, messages: results[12]?.data ?? [], content: results[13]?.data ?? [], classAttempts:results[14]?.data??[], classCompletions:results[15]?.data??[], messageReads:results[16]?.data??[] };
 });
 
 export const courseData = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.number().int().positive().parse(v)).handler(async ({ data, context: { supabase, userId } }) => {
