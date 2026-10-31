@@ -2303,3 +2303,5 @@ button.tc-link{background:none;border:0;cursor:pointer}
  .bl-home-reference .bl-footer-grid > div:first-child { grid-column: 1/-1; }
  .bl-home-reference .bl-footer-grid > div + div { border: 0; padding-left: 0; }
 }
+.bl-home-reference .bl-btn.bl-btn-red { background: var(--bl-home-red); color: var(--bl-on-dark); border-color: transparent; }
+.bl-home-reference .bl-header-actions .bl-btn-primary { background: var(--bl-surface); color: var(--bl-home-blue); }
