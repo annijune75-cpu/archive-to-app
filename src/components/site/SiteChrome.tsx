@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import shieldImg from "@/assets/bridgelib-shield.png";
+import homeLogo from "@/assets/home-exact-logo.png.asset.json";
 import { safeUrl, useSiteContent, type SiteContent } from "@/lib/site-content";
 import { Button } from "@/components/ui/button";
 
@@ -80,6 +81,7 @@ export function Logo({ light = false }: { light?: boolean }) {
     <Link to="/" className={`bl-logo ${light ? "light" : ""}`} aria-label="BridgeLIB home">
       <span className="bl-logo-mark" aria-hidden="true">
         <img src={shieldImg} alt="" width={34} height={34} />
+        <img className="bl-home-logo-mark" src={homeLogo.url} alt="" width={34} height={34} />
       </span>
       <span className="bl-logo-text">
         Bridge<span className="bl-logo-accent">LIB</span>

@@ -1,6 +1,7 @@
 # BridgeLIB completion
 
 ## Design pages
+- [x] Match home page to the supplied reference; original photos, five honest course slots, desktop/phone layouts and navigation controls verified.
 - [x] Four-step student sign-up (Personal, Academic, Account, Complete) creating real accounts.
 - [x] Teacher dashboard from design using real classes, progress, assignments and analytics with empty states.
 

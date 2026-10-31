@@ -52,7 +52,10 @@ import heroImg from "@/assets/hero-student.jpg";
 import { PracticeView } from "@/components/practice/PracticeView";
 import { useQueryClient } from "@tanstack/react-query";
 import sunsetImg from "@/assets/liberia-sunset.jpg";
-import homeHeroImg from '@/assets/reference-home-hero.jpg';
+import homeReferencePhoto from '@/assets/home-exact-photo.png.asset.json';
+import homeReferenceWassce from '@/assets/home-exact-wassce.png.asset.json';
+import homeReferenceJoin from '@/assets/home-exact-join.png.asset.json';
+import homeReferenceLogo from '@/assets/home-exact-logo.png.asset.json';
 import wassceImg from '@/assets/wassce-hero.jpg';
 import joinImg from '@/assets/hero-student.jpg';
 import shieldImg from '@/assets/bridgelib-shield.png';
@@ -1208,10 +1211,11 @@ export function BridgeHome() {
   ) : (
     <>
       <main>
-        <section className="bl-hero" id="hero" style={{ backgroundImage: `url(${homeHeroImg})` }}>
+        <section className="bl-hero" id="hero">
+          <img className="bl-home-hero-photo" src={homeReferencePhoto.url} alt="Liberian students with books outside school beside the Liberian flag" />
           <div className="bl-container bl-hero-inner">
             <p className="bl-hero-brand">
-              <img src={shieldImg} alt="" width={64} height={64} />
+              <img src={homeReferenceLogo.url} alt="" width={64} height={64} />
               <span>
                 Bridge<span className="bl-red">LIB</span>
               </span>
@@ -1226,12 +1230,12 @@ export function BridgeHome() {
               goals with ease.
             </p>
             <div className="bl-hero-actions">
-              <button className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
+              <Button variant="ghost" className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
                 Get Started Free <ArrowRight size={18} />
-              </button>
-              <button type="button" className="bl-btn bl-btn-ghost" onClick={() => setVideoOpen(true)}>
+              </Button>
+              <Button variant="outline" type="button" className="bl-btn bl-btn-ghost" onClick={() => setVideoOpen(true)}>
                 Watch Video <PlayCircle size={18} />
-              </button>
+              </Button>
             </div>
           </div>
           <div className="bl-container">
@@ -1309,13 +1313,13 @@ export function BridgeHome() {
                 </li>
               ))}
             </ul>
-            <img className="bl-wassce-img" src={wassceImg} alt="Student studying for WASSCE" loading="lazy" />
+            <img className="bl-wassce-img" src={homeReferenceWassce.url} alt="Student studying for WASSCE" loading="lazy" />
           </div>
         </section>
 
         <section className="bl-container">
           <div className="bl-join">
-            <img src={joinImg} alt="Liberian student holding books" loading="lazy" />
+            <img src={homeReferenceJoin.url} alt="Liberian student holding books" loading="lazy" />
             <div className="bl-join-copy">
               <h2>Join BridgeLIB Today</h2>
               <p className="bl-muted">
@@ -1338,9 +1342,9 @@ export function BridgeHome() {
                   </div>
                 ))}
               </div>
-              <button className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
+              <Button variant="ghost" className="bl-btn bl-btn-red" onClick={() => openAuth("signup")}>
                 Get Started Free <ArrowRight size={18} />
-              </button>
+              </Button>
             </div>
           </div>
         </section>
@@ -1665,7 +1669,7 @@ export function BridgeHome() {
   );
 
   return (
-    <div className="bridge-shell">
+    <div className={`bridge-shell ${!user && !isAdminRoute ? 'bl-home-reference' : ''}`}>
       <SiteHeader
         actions={
           user ? (
