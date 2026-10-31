@@ -11,6 +11,8 @@
 
 ## Architecture decisions
 
+- Home reference matching is scoped under `.bl-home-reference`; photos are extracted from the owner's reference and served through asset pointers. Featured slots retain honest unavailable states until matching catalogue records exist. Why: preserve the supplied design without changing other screens or fabricating course data.
+
 - BridgeLIB runs on Lovable Cloud. `src/lib/supabase.ts` re-exports the generated client and the Cloud URL/publishable key; server functions validate the caller through `src/lib/bridge-auth.ts`. Why: one backend for data and accounts after the migration off the old external project.
 - `src/start.ts` registers `attachBridgeAuth` as the bearer-token function middleware; do not add a second attacher. Why: it already sends the Cloud session token.
 - Database schema lives in the Cloud migrations (the base tables were reconstructed from app usage because the old project kept them outside the repo). Why: the repo is now the schema source of truth.
