@@ -4,6 +4,7 @@ import { useServerFn } from '@tanstack/react-start';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowRight, BookOpen, CalendarDays, Check, CheckCircle2, ChevronRight, ClipboardCheck, Clock3, Download, GraduationCap, Lightbulb, Target, Trophy } from 'lucide-react';
 import { StudentSidebar } from './StudentSidebar';
+import { StudentHeaderActions } from './StudentHeaderActions';
 import { SiteHeader, SiteFooter, LiberiaFlag } from '@/components/site/SiteChrome';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -43,7 +44,7 @@ export function StudentDashboard() {
  const average=d?averageScore([...d.attempts,...d.classAttempts]):null;const completedCourses=allPercentages.filter(p=>p===100).length;
  const name=d?.profile?.full_name?.trim()||'Student';const firstName=name.split(' ')[0];
  const activities=d?[...d.attempts.map(a=>({id:a.id,date:a.submitted_at,title:'Completed practice quiz',detail:`Score: ${a.score} / ${a.total_questions}`,type:'quiz'})),...d.classAttempts.map(a=>({id:a.id,date:a.submitted_at,title:'Completed class quiz',detail:`Score: ${a.score} / ${a.total_questions}`,type:'quiz'})),...d.classCompletions.map(c=>({id:c.content_id,date:c.created_at,title:'Completed a class lesson',detail:d.content.find(x=>x.id===c.content_id)?.title??'Lesson complete',type:'lesson'})),...d.enrollments.map(e=>({id:e.id,date:e.created_at,title:`Started ${d.subjects.find(s=>s.id===e.subject_id)?.name??'a course'}`,detail:'Course enrolled',type:'course'})),...d.completions.map(c=>({id:c.id,date:c.created_at,title:'Completed a lesson',detail:courses.flatMap(x=>x.lessons).find(l=>l.id===c.lesson_id)?.title??'Lesson complete',type:'lesson'}))].sort((a,b)=>new Date(b.date).getTime()-new Date(a.date).getTime()).slice(0,4):[];
- return <div className="bl-site bl-sd-site bl-student-reference"><SiteHeader student/><div className="bl-sd-layout"><StudentSidebar active="dashboard" verificationLabel={(records.data?.verification??missingStudentVerification).reason}/><main className="bl-sd-main">
+ return <div className="bl-site bl-sd-site bl-student-reference"><SiteHeader student actions={<StudentHeaderActions/>}/><div className="bl-sd-layout"><StudentSidebar active="dashboard" verificationLabel={(records.data?.verification??missingStudentVerification).reason}/><main className="bl-sd-main">
   <section className="bl-sd-welcome"><img src={welcomePhoto.url} alt="Liberian student at school" width={1600} height={544}/><div className="bl-sd-welcome-copy"><h1><span><GraduationCap/></span>Welcome back{d?`, ${firstName}`:''}!</h1><p>Keep learning, keep growing. Your future is bright<br/>and you are closer than you think.</p><div className="bl-sd-facts"><span><GraduationCap/><b>Student<small>Role</small></b></span><span><ClipboardCheck/><b>WASSCE<small>Exam Type</small></b></span><span><CalendarDays/><b>{goal.year}<small>Target Year</small></b></span></div></div><div className="bl-sd-dream">Dream<br/>Study<br/>Achieve</div></section>
   {q.error&&<div className="bl-sd-access"><span>Sign in to see your courses, results and learning progress.</span><a href="/?auth=login" className="bl-btn bl-btn-primary bl-btn-sm">Sign in <ArrowRight size={14}/></a></div>}
   <div className="bl-sd-columns"><div className="bl-sd-left">

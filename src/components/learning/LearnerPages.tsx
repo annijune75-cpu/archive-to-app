@@ -4,6 +4,7 @@ import { useServerFn } from '@tanstack/react-start';
 import { useQuery } from '@tanstack/react-query';
 import { Bookmark, Download, GraduationCap, User } from 'lucide-react';
 import { StudentSidebar } from './StudentSidebar';
+import { StudentHeaderActions } from './StudentHeaderActions';
 import { SiteHeader, SiteFooter, EmptyState, SubjectIcon } from '@/components/site/SiteChrome';
 import { Button } from '@/components/ui/button';
 import { bookmarkCourse, savedCourses, myCertificates, issueCertificate } from '@/lib/reference.functions';
@@ -12,7 +13,7 @@ import { completionEligible } from '@/lib/reference-features';
 import { StudentDetails } from './StudentDetails';
 import { IssuedCertificate } from './IssuedCertificate';
 import { StudentClasses } from './StudentClasses';
-export function LearnerShell({ active, children }: {active:string;children:ReactNode}) {return <div className="bl-site"><SiteHeader student/><div className="bl-pt"><StudentSidebar active={active}/><main className="bl-pt-main bl-library">{children}</main></div><SiteFooter/></div>;}
+export function LearnerShell({ active, children }: {active:string;children:ReactNode}) {return <div className="bl-site"><SiteHeader student actions={<StudentHeaderActions/>}/><div className="bl-pt"><StudentSidebar active={active}/><main className="bl-pt-main bl-library">{children}</main></div><SiteFooter/></div>;}
 function AccessError({ error }: {error:unknown}) {const text=error instanceof Error?error.message:'Please try again.';return <EmptyState title={/sign in|session/i.test(text)?'Sign in to continue':'Something went wrong'} text={text} action={<a href="/?auth=login" className="bl-btn bl-btn-primary">Sign in</a>}/>;}
 function CertificateButton({subjectId,onIssued}:{subjectId:number;onIssued:()=>void}) {
  const load=useServerFn(courseData);const issue=useServerFn(issueCertificate);const [message,setMessage]=useState('');const [busy,setBusy]=useState(false);
