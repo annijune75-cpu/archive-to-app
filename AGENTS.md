@@ -34,3 +34,5 @@
 - Reference bookmarks, ratings, certificates, aggregate metrics and practice feedback use `reference.functions.ts`. Why: never invent live statistics.
 - Certificate PDFs use issued record fields only and identify BridgeLIB course completion, never official exam certification; Ministry links stay separate until documents and alignment are verified. Why: downloads and source links must not fabricate credentials or curriculum coverage.
 - Teacher messages and course lessons/quizzes/resources live in class_messages and class_content (teacher/member scoped by is_class_teacher/is_class_member); resource files go in the private class-resources bucket under <class_id>/, opened via short-lived signed links. Teacher profile photos reuse the owner-scoped student-photos path. Why: reuse class access rules for every new teacher feature.
+
+- Student class learning uses StudentClasses and student-class.functions; quiz keys are teacher-only and extracted by a database trigger, grading persists through a membership-checked RPC, and announcement reads are per learner. Why: class learning cannot expose answers, fabricate progress or share read state.
