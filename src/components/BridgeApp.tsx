@@ -52,6 +52,8 @@ import heroImg from "@/assets/hero-student.jpg";
 import { PracticeView } from "@/components/practice/PracticeView";
 import { useQueryClient } from "@tanstack/react-query";
 import sunsetImg from "@/assets/liberia-sunset.jpg";
+import signupPhoto from "@/assets/signup-exact-photo.jpg";
+import signupFlag from "@/assets/signup-exact-flag.jpg";
 import homeReferencePhoto from '@/assets/home-exact-photo.png.asset.json';
 import homeReferenceWassce from '@/assets/home-exact-wassce.png.asset.json';
 import homeReferenceJoin from '@/assets/home-exact-join.png.asset.json';
@@ -67,6 +69,8 @@ import { Button } from "@/components/ui/button";
 import { practiceFeedback } from '@/lib/reference.functions';
 
 type AuthMode = "signup" | "login";
+const liberianCounties = ["Bomi","Bong","Gbarpolu","Grand Bassa","Grand Cape Mount","Grand Gedeh","Grand Kru","Lofa","Margibi","Maryland","Montserrado","Nimba","River Cess","River Gee","Sinoe"];
+const gradeOptions: [string, string][] = [["Grade 7","junior_high"],["Grade 8","junior_high"],["Grade 9","junior_high"],["Grade 10","senior_high"],["Grade 11","senior_high"],["Grade 12 (WASSCE)","senior_high"],["Private candidate","other"],["College / Vocational","college_vocational"]];
 type LearnerPath = "school_learner" | "wassce_candidate" | "independent_learner";
 
 type Profile = {
@@ -583,7 +587,12 @@ export function BridgeHome() {
       if (mode === "signup") {
         const fullName = String(form.get("fullName") ?? "").trim();
         const learnerPath = String(form.get("learnerPath") ?? selectedPath) as LearnerPath;
-        const educationLevel = String(form.get("educationLevel") ?? "primary");
+        const gradeText = String(form.get("gradeLevel") ?? "");
+        const educationLevel = gradeOptions.find(([g]) => g === gradeText)?.[1] ?? "other";
+        const dateOfBirth = String(form.get("dateOfBirth") ?? "");
+        const gender = String(form.get("gender") ?? "");
+        const county = String(form.get("county") ?? "");
+        if (!form.get("terms")) throw new Error("Please agree to the Terms of Service and Privacy Policy.");
         const gradeLevel = String(form.get("gradeLevel") ?? "").trim() || null;
         const yearText = String(form.get("examYear") ?? "").trim();
         const targetExamYear = yearText ? Number(yearText) : null;
@@ -607,6 +616,9 @@ export function BridgeHome() {
               education_level: educationLevel,
               grade_level: gradeLevel,
               target_exam_year: targetExamYear,
+              date_of_birth: dateOfBirth || null,
+              gender: gender || null,
+              county: county || null,
             },
           },
         });
@@ -623,6 +635,7 @@ export function BridgeHome() {
               grade_level: gradeLevel,
               target_exam_year: targetExamYear,
               school_name: registration.data.school,
+              county: county || null,
               onboarding_completed: true,
               updated_at: new Date().toISOString(),
             })
@@ -1600,7 +1613,7 @@ export function BridgeHome() {
                       <Button className="bridge-button" type="button" variant="outline" onClick={() => setSignupStep((s) => s - 1)}>Back</Button>
                     )}
                     <Button className="bridge-button primary button-full" type="button" onClick={goNextSignupStep}>
-                      Continue <ArrowRight size={16} />
+                      Next Step <ArrowRight size={16} />
                     </Button>
                   </div>
                 ) : (
@@ -1622,7 +1635,7 @@ export function BridgeHome() {
                       : resetMode
                         ? "Send password-reset link"
                         : mode === "signup"
-                          ? "Create account"
+                          ? "Create Account"
                           : "Sign in"}
                   <ArrowRight size={16} />
                 </Button>
