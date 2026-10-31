@@ -1486,23 +1486,23 @@ export function BridgeHome() {
                   <div data-step="1" hidden={signupStep !== 1}>
                     <h3 className="su-step-title">1. Personal Information</h3>
                     <div className="su-grid">
-                      <label className="su-box"><span className="su-ico"><UsersRound size={18} /></span><span>Full Name <em>*</em><input name="fullName" autoComplete="name" placeholder="Enter your full name" required /></span></label>
-                      <label className="su-box"><span className="su-ico"><FileText size={18} /></span><span>Email Address <em>*</em><input name="email" type="email" autoComplete="email" placeholder="Enter your email address" required /></span></label>
-                      <label className="su-box"><span className="su-ico"><Laptop size={18} /></span><span>Phone Number <em>*</em><input name="phone" type="tel" autoComplete="tel" placeholder="+231 770 123 456" required /></span></label>
-                      <label className="su-box"><span className="su-ico"><Timer size={18} /></span><span>Date of Birth <em>*</em><input name="dateOfBirth" type="date" max={new Date().toISOString().slice(0, 10)} required /></span></label>
+                      <label className="su-box"><span className="su-ico"><UsersRound size={18} /></span><span><span className="su-l">Full Name <em>*</em></span><input name="fullName" autoComplete="name" placeholder="Enter your full name" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><FileText size={18} /></span><span><span className="su-l">Email Address <em>*</em></span><input name="email" type="email" autoComplete="email" placeholder="Enter your email address" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><Laptop size={18} /></span><span><span className="su-l">Phone Number <em>*</em></span><input name="phone" type="tel" autoComplete="tel" placeholder="+231 770 123 456" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><Timer size={18} /></span><span><span className="su-l">Date of Birth <em>*</em></span><input name="dateOfBirth" type="date" max={new Date().toISOString().slice(0, 10)} required /></span></label>
                       <fieldset className="su-gender">
                         <legend>Gender <em>*</em></legend>
                         {["Male", "Female", "Prefer not to say"].map((g, i) => (
                           <label key={g}><input type="radio" name="gender" value={g} defaultChecked={i === 0} required /> {g}</label>
                         ))}
                       </fieldset>
-                      <label className="su-plain">County <em>*</em>
+                      <label className="su-plain"><span className="su-l">County <em>*</em></span>
                         <select name="county" required defaultValue="">
                           <option value="" disabled>Select your county</option>
                           {liberianCounties.map((c) => <option key={c} value={c}>{c}</option>)}
                         </select>
                       </label>
-                      <label className="su-plain su-wide">School Name <em>*</em>
+                      <label className="su-plain su-wide"><span className="su-l">School Name <em>*</em></span>
                         <span className="su-box su-inline"><span className="su-ico"><GraduationCap size={18} /></span><input name="schoolName" autoComplete="organization" placeholder="Enter your school name" required /></span>
                       </label>
                     </div>
@@ -1510,13 +1510,13 @@ export function BridgeHome() {
                   <div data-step="2" hidden={signupStep !== 2}>
                     <h3 className="su-step-title">2. Academic Information</h3>
                     <div className="su-grid">
-                      <label className="su-plain">Current Class/Grade <em>*</em>
+                      <label className="su-plain"><span className="su-l">Current Class/Grade <em>*</em></span>
                         <select name="gradeLevel" required defaultValue="">
                           <option value="" disabled>Select your class</option>
                           {gradeOptions.map(([v]) => <option key={v} value={v}>{v}</option>)}
                         </select>
                       </label>
-                      <label className="su-plain">Exam Type <em>*</em>
+                      <label className="su-plain"><span className="su-l">Exam Type <em>*</em></span>
                         <select name="learnerPath" value={selectedPath} onChange={(event) => setSelectedPath(event.target.value as LearnerPath)}>
                           <option value="wassce_candidate">WASSCE</option>
                           <option value="school_learner">School exams (no WASSCE yet)</option>
@@ -1528,7 +1528,7 @@ export function BridgeHome() {
                           <input name="examYear" type="number" min="2020" max="2100" placeholder="For example, 2027" />
                         </label>
                       )}
-                      <label className="su-plain">Student Photo <em>*</em>
+                      <label className="su-plain"><span className="su-l">Student Photo <em>*</em></span>
                         <input name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" required />
                         <small>JPG, PNG or WebP, up to 5 MB.</small>
                       </label>
@@ -1554,7 +1554,7 @@ export function BridgeHome() {
 
                 {!resetMode && !recoveryMode && (
                   <label className="form-field">
-                    Password
+                    {isSignupWizard ? <span className="su-l">Password <em>*</em></span> : "Password"}
                     <input
                       name="password"
                       type="password"
@@ -1568,7 +1568,7 @@ export function BridgeHome() {
                 {isSignupWizard && (
                   <>
                     <label className="form-field">
-                      Confirm Password <em>*</em>
+                      <span className="su-l">Confirm Password <em>*</em></span>
                       <input name="signupConfirm" type="password" autoComplete="new-password" minLength={8} placeholder="Enter the password again" required />
                     </label>
                     <label className="su-terms">
