@@ -1608,20 +1608,20 @@ export function BridgeHome() {
                 )}
 
                 {isSignupWizard && signupStep < 3 ? (
-                  <div className="bl-step-actions">
+                  <div className="bl-step-actions" key="wizard-actions">
                     {signupStep > 1 && (
                       <Button className="bridge-button" type="button" variant="outline" onClick={() => setSignupStep((s) => s - 1)}>Back</Button>
                     )}
-                    <Button className="bridge-button primary button-full" type="button" onClick={goNextSignupStep}>
+                    <Button key="next" className="bridge-button primary button-full" type="button" onClick={goNextSignupStep}>
                       Next Step <ArrowRight size={16} />
                     </Button>
                   </div>
                 ) : (
-                <div className="bl-step-actions">
+                <div className="bl-step-actions" key="submit-actions">
                 {isSignupWizard && (
                   <Button className="bridge-button" type="button" variant="outline" onClick={() => setSignupStep(2)}>Back</Button>
                 )}
-                <Button className="bridge-button primary button-full" type="submit" disabled={busy}>
+                <Button key="submit" className="bridge-button primary button-full" type="submit" disabled={busy}>
                   {busy
                     ? recoveryMode
                       ? "Updating password…"
