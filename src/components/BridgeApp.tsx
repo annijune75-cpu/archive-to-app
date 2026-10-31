@@ -1350,17 +1350,32 @@ export function BridgeHome() {
         </section>
 
         <section
-          className={`auth-section ${authOpen ? "" : "hidden"}`}
+          className={`auth-section ${authOpen ? "" : "hidden"} ${isSignupWizard ? "su-ref" : ""}`}
           id="auth-section"
           aria-labelledby="auth-title"
         >
           <div className="auth-split">
+            {isSignupWizard ? (
+              <aside className="su-photo">
+                <img src={signupPhoto} alt="Smiling Liberian student holding books" />
+                <div className="su-photo-text">
+                  <h3>Join BridgeLIB Today</h3>
+                  <p>Create your free account and start your learning journey towards a brighter future.</p>
+                  <div className="su-stats">
+                    <span><UsersRound size={22} /><b>Free</b><small>Student account</small></span>
+                    <span><BookOpen size={22} /><b>{learningCategories.length}</b><small>Subjects</small></span>
+                    <span><Laptop size={22} /><b>100%</b><small>Online Access</small></span>
+                  </div>
+                </div>
+              </aside>
+            ) : (
             <aside className="auth-photo" style={{ backgroundImage: `url(${sunsetImg})` }}>
               <div>
-                <h3>{mode === "signup" ? "Join BridgeLIB" : "Welcome Back!"}</h3>
+                <h3>Welcome Back!</h3>
                 <p>Sign in to continue your learning journey.</p>
               </div>
             </aside>
+            )}
             <div className="auth-card">
               <button
                 className="close-button"
@@ -1375,6 +1390,16 @@ export function BridgeHome() {
                 <X size={18} />
               </button>
 
+              {isSignupWizard ? (
+                <div className="su-head">
+                  <span className="su-head-ico"><UsersRound size={30} /></span>
+                  <div>
+                    <h2 id="auth-title">Create Your Student Account</h2>
+                    <p>Fill in your details to get started. It only takes a few minutes.</p>
+                  </div>
+                </div>
+              ) : (
+              <>
               <div className="auth-heading">
                 <span className="brand-mark">B</span>
                 <p className="eyebrow">WELCOME TO BRIDGELIB</p>
@@ -1383,27 +1408,23 @@ export function BridgeHome() {
                     ? "Create a new password"
                     : resetMode
                       ? "Reset your password"
-                      : mode === "signup"
-                        ? "Create your account"
-                        : "Welcome back"}
+                      : "Welcome back"}
                 </h2>
                 <p>
                   {recoveryMode
                     ? "Choose and confirm a new password for your BridgeLIB account."
                     : resetMode
                       ? "Enter your email and we will send a password-reset link."
-                      : mode === "signup"
-                        ? "Start your learning journey."
-                        : "Sign in to continue learning."}
+                      : "Sign in to continue learning."}
                 </p>
               </div>
 
               {!resetMode && !recoveryMode && (
                 <div className="auth-tabs" role="tablist" aria-label="Account access">
                   <button
-                    className={`auth-tab ${mode === "signup" ? "active" : ""}`}
+                    className="auth-tab"
                     role="tab"
-                    aria-selected={mode === "signup"}
+                    aria-selected={false}
                     onClick={() => {
                       setMode("signup");
                       setSignupStep(1);
@@ -1413,18 +1434,12 @@ export function BridgeHome() {
                   >
                     Create account
                   </button>
-                  <button
-                    className={`auth-tab ${mode === "login" ? "active" : ""}`}
-                    role="tab"
-                    aria-selected={mode === "login"}
-                    onClick={() => {
-                      setMode("login");
-                      setAuthMessage(null);
-                    }}
-                  >
+                  <button className="auth-tab active" role="tab" aria-selected>
                     Sign in
                   </button>
                 </div>
+              )}
+              </>
               )}
 
               {isSignupWizard && (
@@ -1434,7 +1449,7 @@ export function BridgeHome() {
                     const current = signupDone ? 4 : signupStep;
                     return (
                       <li key={label} className={n < current ? "done" : n === current ? "active" : ""} aria-current={n === current ? "step" : undefined}>
-                        <span className="bl-step-dot">{n < current ? <CheckCircle2 size={14} /> : n}</span>
+                        <span className="bl-step-dot">{n}</span>
                         <span>{label}</span>
                       </li>
                     );
@@ -1444,11 +1459,11 @@ export function BridgeHome() {
 
               {isSignupWizard && signupDone ? (
                 <div className="bl-step-complete" data-testid="signup-complete">
-                  <CheckCircle2 size={44} />
-                  <h3>Account created</h3>
-                  <p>We sent a confirmation link to your email. Open it, then sign in to start learning. Add your student photo from Profile after you sign in.</p>
+                  <span className="su-done"><Check size={40} strokeWidth={3} /></span>
+                  <h3>Account Created!</h3>
+                  <p>Welcome to BridgeLIB! We sent a confirmation link to your email. Open it, then sign in to access your courses, practice tests and more.</p>
                   <Button className="bridge-button primary" type="button" onClick={() => { setSignupDone(false); setSignupStep(1); setMode("login"); setAuthMessage(null); }}>
-                    Go to sign in <ArrowRight size={16} />
+                    Go to Sign In <ArrowRight size={16} />
                   </Button>
                 </div>
               ) : (
@@ -1456,73 +1471,62 @@ export function BridgeHome() {
                 {mode === "signup" && !resetMode && !recoveryMode && (
                   <>
                   <div data-step="1" hidden={signupStep !== 1}>
-                    <label className="form-field">
-                      Full name
-                      <input
-                        name="fullName"
-                        autoComplete="name"
-                        placeholder="Your full name"
-                        required
-                      />
-                    </label>
-
-                    <label className="form-field">Phone number<input name="phone" type="tel" autoComplete="tel" placeholder="+231 …" required /></label>
-                    <label className="form-field">Student photo<input name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" required /><small>JPG, PNG or WebP, up to 5 MB.</small></label>
+                    <h3 className="su-step-title">1. Personal Information</h3>
+                    <div className="su-grid">
+                      <label className="su-box"><span className="su-ico"><UsersRound size={18} /></span><span>Full Name <em>*</em><input name="fullName" autoComplete="name" placeholder="Enter your full name" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><FileText size={18} /></span><span>Email Address <em>*</em><input name="email" type="email" autoComplete="email" placeholder="Enter your email address" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><Laptop size={18} /></span><span>Phone Number <em>*</em><input name="phone" type="tel" autoComplete="tel" placeholder="+231 770 123 456" required /></span></label>
+                      <label className="su-box"><span className="su-ico"><Timer size={18} /></span><span>Date of Birth <em>*</em><input name="dateOfBirth" type="date" max={new Date().toISOString().slice(0, 10)} required /></span></label>
+                      <fieldset className="su-gender">
+                        <legend>Gender <em>*</em></legend>
+                        {["Male", "Female", "Prefer not to say"].map((g, i) => (
+                          <label key={g}><input type="radio" name="gender" value={g} defaultChecked={i === 0} required /> {g}</label>
+                        ))}
+                      </fieldset>
+                      <label className="su-plain">County <em>*</em>
+                        <select name="county" required defaultValue="">
+                          <option value="" disabled>Select your county</option>
+                          {liberianCounties.map((c) => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                      </label>
+                      <label className="su-plain su-wide">School Name <em>*</em>
+                        <span className="su-box su-inline"><span className="su-ico"><GraduationCap size={18} /></span><input name="schoolName" autoComplete="organization" placeholder="Enter your school name" required /></span>
+                      </label>
+                    </div>
                   </div>
                   <div data-step="2" hidden={signupStep !== 2}>
-                    <label className="form-field">School you attend<input name="schoolName" autoComplete="organization" placeholder="Your school name" required /></label>
-                    <label className="form-field">
-                      Learning path
-                      <select
-                        name="learnerPath"
-                        value={selectedPath}
-                        onChange={(event) => setSelectedPath(event.target.value as LearnerPath)}
-                      >
-                        {paths.map((path) => (
-                          <option value={path.id} key={path.id}>
-                            {path.title}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="form-field">
-                      Education level
-                      <select name="educationLevel" required>
-                        {educationLevels.map(([value, label]) => (
-                          <option value={value} key={value}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="form-field">
-                      Current grade or class
-                      <input
-                        name="gradeLevel"
-                        placeholder="For example, Grade 8 or private candidate"
-                      />
-                    </label>
-
-                    {selectedPath === "wassce_candidate" && (
-                      <label className="form-field">
-                        Target WASSCE year <span className="muted">(optional)</span>
-                        <input
-                          name="examYear"
-                          type="number"
-                          min="2020"
-                          max="2100"
-                          placeholder="For example, 2027"
-                        />
+                    <h3 className="su-step-title">2. Academic Information</h3>
+                    <div className="su-grid">
+                      <label className="su-plain">Current Class/Grade <em>*</em>
+                        <select name="gradeLevel" required defaultValue="">
+                          <option value="" disabled>Select your class</option>
+                          {gradeOptions.map(([v]) => <option key={v} value={v}>{v}</option>)}
+                        </select>
                       </label>
-                    )}
+                      <label className="su-plain">Exam Type <em>*</em>
+                        <select name="learnerPath" value={selectedPath} onChange={(event) => setSelectedPath(event.target.value as LearnerPath)}>
+                          <option value="wassce_candidate">WASSCE</option>
+                          <option value="school_learner">School exams (no WASSCE yet)</option>
+                          <option value="independent_learner">Independent learner</option>
+                        </select>
+                      </label>
+                      {selectedPath === "wassce_candidate" && (
+                        <label className="su-plain">Target WASSCE Year <span className="muted">(optional)</span>
+                          <input name="examYear" type="number" min="2020" max="2100" placeholder="For example, 2027" />
+                        </label>
+                      )}
+                      <label className="su-plain">Student Photo <em>*</em>
+                        <input name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" required />
+                        <small>JPG, PNG or WebP, up to 5 MB.</small>
+                      </label>
+                    </div>
                   </div>
                   </>
                 )}
 
                 <div data-step="3" hidden={isSignupWizard && signupStep !== 3}>
-                {!recoveryMode && (
+                {isSignupWizard && <h3 className="su-step-title">3. Account Setup</h3>}
+                {!recoveryMode && !isSignupWizard && (
                   <label className="form-field">
                     Email address
                     <input
@@ -1549,10 +1553,16 @@ export function BridgeHome() {
                   </label>
                 )}
                 {isSignupWizard && (
-                  <label className="form-field">
-                    Confirm password
-                    <input name="signupConfirm" type="password" autoComplete="new-password" minLength={8} placeholder="Enter the password again" required />
-                  </label>
+                  <>
+                    <label className="form-field">
+                      Confirm Password <em>*</em>
+                      <input name="signupConfirm" type="password" autoComplete="new-password" minLength={8} placeholder="Enter the password again" required />
+                    </label>
+                    <label className="su-terms">
+                      <input name="terms" type="checkbox" required />
+                      <span>I agree to the <Link to="/terms">Terms of Service</Link> and <Link to="/privacy">Privacy Policy</Link></span>
+                    </label>
+                  </>
                 )}
                 </div>
 
@@ -1655,11 +1665,46 @@ export function BridgeHome() {
               </form>
               )}
 
-              <p className="auth-note">
-                Teacher and school access use a separate verification process. This learner form
-                cannot grant teacher privileges.
-              </p>
+              {isSignupWizard ? (
+                !signupDone && (
+                  <p className="su-signin">
+                    Already have an account?{" "}
+                    <button type="button" onClick={() => { setMode("login"); setAuthMessage(null); }}>Sign In</button>
+                  </p>
+                )
+              ) : (
+                <p className="auth-note">
+                  Teacher and school access use a separate verification process. This learner form
+                  cannot grant teacher privileges.
+                </p>
+              )}
             </div>
+            {isSignupWizard && (
+              <aside className="su-why" aria-label="Why join BridgeLIB">
+                <h3>Why Join BridgeLIB?</h3>
+                <p>Get access to quality education, exam preparation and resources — all in one place.</p>
+                <ul>
+                  {[
+                    [<BookOpen key="a" size={20} />, "WASSCE Past Questions", "Published school records"],
+                    [<ClipboardCheck key="b" size={20} />, "Interactive Practice Tests", "& Quizzes"],
+                    [<NotebookPen key="c" size={20} />, "Study Notes & Revision", "Materials"],
+                    [<TrendingUp key="d" size={20} />, "Progress Tracking", "& Certificates"],
+                    [<Laptop key="e" size={20} />, "Learn Anytime, Anywhere", "(Phone & Web)"],
+                  ].map(([icon, t, s]) => (
+                    <li key={String(t)}><span>{icon}</span><div><b>{t}</b><small>{s}</small></div></li>
+                  ))}
+                </ul>
+                <h4>I am a...</h4>
+                <div className="su-roles">
+                  <button type="button" className="active" aria-pressed="true"><GraduationCap size={22} /><span><b>Student</b><small>Learn and grow</small></span></button>
+                  <button type="button" aria-pressed="false" onClick={() => setToast({ kind: "error", message: "Teacher accounts are set up by a school administrator after verification. This form creates student accounts only." })}><UsersRound size={22} /><span><b>Teacher</b><small>Teach and inspire</small></span></button>
+                </div>
+                <blockquote>
+                  <span>“Education is the key to a brighter tomorrow.”</span>
+                  <img src={signupFlag} alt="Liberian flag" />
+                </blockquote>
+              </aside>
+            )}
           </div>
         </section>
       </main>
