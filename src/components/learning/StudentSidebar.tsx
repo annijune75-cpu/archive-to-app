@@ -23,7 +23,7 @@ export function StudentSidebar({ active = 'practice', verificationLabel }: { act
   {key:'bookmarks',to:'/bookmarks',label:'Bookmarks',Icon:Bookmark},
   {key:'downloads',to:'/downloads',label:'Downloads',Icon:Download},
  ] as const).map(({key,to,label,Icon})=><Link key={key} to={to} className={active===key?'is-active':''}><Icon size={18}/>{label}</Link>)}
- <Link to="/classroom" search={{tab:'messages'}} className={active==='messages'?'is-active':''}><MessageSquare size={18}/>Messages</Link><hr/><Link to="/profile" className={active==='profile'?'is-active':''}><User size={18}/>Profile</Link><Link to="/settings" className={active==='settings'?'is-active':''}><Settings size={18}/>Settings</Link>
+ <Link to="/classroom" search={{tab:'messages',classId:''}} className={active==='messages'?'is-active':''}><MessageSquare size={18}/>Messages</Link><hr/><Link to="/profile" className={active==='profile'?'is-active':''}><User size={18}/>Profile</Link><Link to="/settings" className={active==='settings'?'is-active':''}><Settings size={18}/>Settings</Link>
  {signedIn?<Button className="bl-side-logout" onClick={async()=>{await supabase.auth.signOut();await navigate({to:'/'});}}><LogOut size={18}/>Logout</Button>:<a href="/?auth=login"><LogOut size={18}/>Login</a>}
  </nav><div className="bl-pt-side-card"><LiberiaFlag size={80}/><strong>Learn Today, Build Tomorrow.</strong><span>Better education.<br/>A brighter Liberia.</span></div></aside>;
 }
